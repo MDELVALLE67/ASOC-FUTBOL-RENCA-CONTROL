@@ -1,0 +1,2505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AH Renca — Sistema 2026</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:#f0f4f8;color:#1a202c;min-height:100vh}
+.hdr{background:linear-gradient(90deg,#0a1628,#1a3a6b,#0a1628);padding:0 24px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:3px solid #c9a227;position:sticky;top:0;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.hdr-left{display:flex;align-items:center;gap:12px}
+.hdr-ico{width:42px;height:42px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+.hdr h1{font-size:1rem;font-weight:700;color:#fff}
+.hdr small{color:#f0c040;font-size:.6rem;letter-spacing:2px;display:block;text-transform:uppercase}
+.hdr-r{color:rgba(255,255,255,.5);font-size:.72rem;text-align:right}
+.hdr-r b{color:#f0c040;display:block;font-size:.82rem}
+.nav{background:#fff;border-bottom:2px solid #e2e8f0;display:flex;overflow-x:auto;padding:0 20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.nav::-webkit-scrollbar{height:0}
+.ntab{background:none;border:none;border-bottom:3px solid transparent;color:#718096;
+  padding:12px 14px;cursor:pointer;font-size:.72rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.5px;white-space:nowrap;margin-bottom:-2px;transition:all .15s}
+.ntab:hover{color:#1a3a6b}
+.ntab.activo{color:#1a3a6b;border-bottom-color:#c9a227}
+main{padding:20px 24px;max-width:1400px;margin:0 auto}
+.pag{display:none}
+.pag.activo{display:block;animation:ap .2s ease}
+@keyframes ap{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.mhdr{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:14px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  box-shadow:0 1px 8px rgba(0,0,0,.07);border-left:5px solid #1a3a6b}
+.mtit{font-size:1.2rem;font-weight:700;color:#0a1628}
+.msub{font-size:.72rem;color:#a0aec0;margin-top:2px}
+.mbtns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filtro{background:#1a3a6b;border-radius:10px;padding:14px 18px;margin-bottom:16px;
+  display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.ftit{color:#f0c040;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;align-self:center;white-space:nowrap}
+.fg{display:flex;flex-direction:column;gap:3px}
+.fg label{font-size:.58rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.fi,.fs{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;
+  padding:6px 10px;border-radius:6px;font-size:.82rem;font-family:system-ui}
+.fi::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.6}
+.fs option{background:#1a3a6b;color:#fff}
+.fext{margin-left:auto;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border:none;
+  border-radius:7px;cursor:pointer;font-size:.78rem;font-weight:700;font-family:system-ui;
+  transition:all .15s;white-space:nowrap}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.baz{background:#1a3a6b;color:#fff}
+.bve{background:#166534;color:#fff}
+.brj{background:#991b1b;color:#fff}
+.bam{background:#92400e;color:#fff}
+.bgr{background:#e2e8f0;color:#4a5568}
+.bor{background:#c9a227;color:#0a1628}
+.btn.sm{padding:6px 11px;font-size:.72rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:11px;margin-bottom:16px}
+.card{background:#fff;border-radius:9px;padding:14px;text-align:center;border-top:4px solid #1a3a6b;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.cv{font-size:1.6rem;font-weight:800;color:#1a3a6b;line-height:1}
+.cl{font-size:.6rem;color:#a0aec0;text-transform:uppercase;letter-spacing:1.5px;margin-top:5px;font-weight:700}
+.card.ve{border-top-color:#16a34a}.card.ve .cv{color:#15803d}
+.card.rj{border-top-color:#dc2626}.card.rj .cv{color:#b91c1c}
+.card.am{border-top-color:#d97706}.card.am .cv{color:#b45309}
+.card.az{border-top-color:#2563eb}.card.az .cv{color:#1d4ed8}
+.card.or{border-top-color:#c9a227}.card.or .cv{color:#92400e}
+.tw{overflow-x:auto;border-radius:9px;border:1px solid #e2e8f0;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+table{width:100%;border-collapse:collapse;background:#fff}
+thead tr{background:#1a3a6b}
+thead th{padding:10px 12px;font-size:.62rem;color:rgba(255,255,255,.85);text-align:left;
+  text-transform:uppercase;letter-spacing:1.5px;font-weight:700;white-space:nowrap}
+tbody tr{border-top:1px solid #f0f4f8;transition:background .1s}
+tbody tr:hover{background:#f7fafc}
+tbody td{padding:9px 12px;font-size:.82rem;vertical-align:middle}
+.empty{text-align:center;padding:40px;color:#a0aec0}
+.empty span{font-size:2.5rem;display:block;margin-bottom:10px;opacity:.3}
+.b{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.63rem;font-weight:700}
+.bve2{background:#dcfce7;color:#15803d;border:1px solid #86efac}
+.brj2{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5}
+.bam2{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.baz2{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.bgr2{background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1}
+/* MODAL */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);
+  z-index:999;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.ov.show{display:flex}
+.mc{background:#fff;border-radius:12px;padding:24px;width:95%;max-width:520px;
+  max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);
+  animation:me .2s ease}
+@keyframes me{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mtit2{font-size:1.05rem;font-weight:700;color:#0a1628;margin-bottom:16px;
+  padding-bottom:10px;border-bottom:2px solid #e2e8f0}
+.campo{margin-bottom:12px}
+.campo label{display:block;font-size:.62rem;color:#718096;text-transform:uppercase;
+  letter-spacing:1px;font-weight:700;margin-bottom:4px}
+.campo input,.campo select,.campo textarea{
+  width:100%;background:#f7fafc;border:1px solid #e2e8f0;color:#1a202c;
+  padding:8px 11px;border-radius:6px;font-size:.83rem;font-family:system-ui}
+.campo input:focus,.campo select:focus,.campo textarea:focus{
+  outline:none;border-color:#1a3a6b;background:#fff}
+.campo textarea{min-height:70px;resize:vertical}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mpie{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;
+  padding-top:12px;border-top:1px solid #e2e8f0}
+/* NOTIF */
+.notif{position:fixed;bottom:16px;right:16px;background:#0a1628;border:2px solid #c9a227;
+  border-radius:9px;padding:11px 18px;font-size:.82rem;color:#fff;z-index:9999;
+  display:none;box-shadow:0 6px 24px rgba(0,0,0,.35)}
+/* FIX ITEMS */
+.fix-lista{display:grid;gap:9px}
+.fix-item{background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:12px 16px;
+  display:grid;grid-template-columns:1fr 90px 1fr;align-items:center;gap:10px;
+  box-shadow:0 1px 5px rgba(0,0,0,.05)}
+.fix-eq{font-weight:700;font-size:.9rem}
+.fix-eq.vis{text-align:right}
+.fix-c{text-align:center;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;padding:0 8px}
+.fix-marc{font-size:1.4rem;font-weight:800;color:#1a3a6b}
+.fix-info{font-size:.63rem;color:#a0aec0}
+/* IBOX */
+.ibox{background:#fff;border-radius:10px;padding:15px;box-shadow:0 1px 6px rgba(0,0,0,.07);border-left:4px solid #1a3a6b;margin-bottom:14px}
+.ibox h4{font-size:.78rem;color:#1a3a6b;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.ifila{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #e2e8f0;font-size:.82rem}
+.ifila:last-child{border:none}
+.ifila.tot{border-top:2px solid #1a3a6b;margin-top:4px;padding-top:7px;font-weight:700}
+.iv{font-weight:700}.iv.ve{color:#15803d}.iv.rj{color:#b91c1c}.iv.or{color:#c9a227}
+/* SERIES */
+.stabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.stab{background:#fff;border:1px solid #e2e8f0;color:#718096;padding:6px 14px;
+  border-radius:7px;cursor:pointer;font-size:.75rem;font-weight:700;transition:all .15s}
+.stab.activo,.stab:hover{background:#1a3a6b;color:#fff;border-color:#1a3a6b}
+/* PERÍODO GLOBAL */
+.pbar{background:linear-gradient(90deg,#0a1628,#1a3a6b);border-bottom:2px solid #c9a227;
+  padding:7px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:.72rem;color:rgba(255,255,255,.7)}
+.pbar b{color:#f0c040}
+.pbar input[type=date]{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  color:#fff;padding:4px 8px;border-radius:5px;font-size:.75rem;font-family:system-ui}
+.pbar input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.6}
+.pbar select{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  color:#fff;padding:4px 8px;border-radius:5px;font-size:.75rem;font-family:system-ui}
+.pbar select option{background:#1a3a6b}
+/* TABLA CLUBES DEUDA */
+.td-pag{color:#15803d;font-weight:700}
+.td-deu{color:#b91c1c;font-weight:700}
+.td-ven{color:#7c3aed;font-weight:700}
+/* ADMIN */
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.ablq{background:#fff;border-radius:10px;padding:15px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.ablq h4{font-size:.78rem;color:#1a3a6b;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;margin-bottom:12px;padding-bottom:7px;border-bottom:2px solid #1a3a6b}
+.afila{display:flex;align-items:center;justify-content:space-between;padding:7px;background:#f7fafc;
+  border:1px solid #e2e8f0;border-radius:6px;margin-bottom:5px;font-size:.81rem}
+/* INF */
+.igrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.icard{background:#fff;border-radius:10px;padding:15px;box-shadow:0 1px 6px rgba(0,0,0,.07);border-top:3px solid #1a3a6b}
+.icard h4{font-size:.88rem;color:#0a1628;font-weight:700;margin-bottom:4px}
+.icard p{font-size:.74rem;color:#718096;margin-bottom:10px;line-height:1.5}
+.icard.ppal{grid-column:1/-1;border:2px solid #c9a227;background:linear-gradient(135deg,#fffbeb,#fff)}
+@media(max-width:680px){.agrid,.g2{grid-template-columns:1fr}main,.hdr,.nav{padding-left:14px;padding-right:14px}.mhdr{flex-direction:column;align-items:flex-start}}
+</style>
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="hdr-ico">⚽</div>
+    <div><h1>ASOCIACIÓN HISTÓRICA DE RENCA</h1><small>Sistema de Control Directivo 2026</small></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="hdr-r"><b id="hoy">—</b>38 Clubes · Temporada 2026</div>
+    <span id="hdr-user" style="display:none;background:rgba(255,255,255,.15);color:#fff;padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:700"></span>
+    <button id="btn-clave" onclick="abrirCambioClave()" style="display:none;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:5px 10px;border-radius:6px;font-size:.7rem;cursor:pointer;font-family:system-ui">🔑 Cambiar clave</button>
+    <button onclick="cerrarSesion()" id="btn-logout" style="background:rgba(220,38,38,.3);border:1px solid rgba(220,38,38,.5);color:#fff;padding:5px 10px;border-radius:6px;font-size:.7rem;cursor:pointer;font-family:system-ui;display:none">🚪 Salir</button>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="ntab activo" onclick="ir('resumen',this)">📊 Resumen</button>
+  <button class="ntab" onclick="ir('tesoreria',this)">💰 Tesorería</button>
+  <button class="ntab" onclick="ir('disciplina',this)">⚖️ Disciplina</button>
+  <button class="ntab" onclick="ir('presidencia',this)">👔 Presidencia</button>
+  <button class="ntab" onclick="ir('secretaria',this)">📋 Secretaría</button>
+  <button class="ntab" onclick="ir('fixture',this)">📅 Fixture</button>
+  <button class="ntab" onclick="ir('posiciones',this)">🏆 Posiciones</button>
+  <button class="ntab" onclick="ir('clubes',this)">🛡️ Clubes</button>
+  <button class="ntab" onclick="ir('series',this)">📂 Series</button>
+  <button class="ntab" onclick="ir('arbitros',this)">🎯 Árbitros</button>
+  <button class="ntab" onclick="ir('jugadores',this)">👟 Jugadores</button>
+  <button class="ntab" onclick="ir('actas',this)">📄 Actas</button>
+  <button class="ntab" onclick="ir('financiero',this)">📈 Financiero</button>
+  <button class="ntab" onclick="ir('informes',this)">📑 Informes</button>
+  <button class="ntab" onclick="ir('admin',this)">⚙️ Admin</button>
+</nav>
+
+<div class="pbar" id="pbar-global">
+  <b>📅 PERÍODO GLOBAL:</b>
+  <span style="color:rgba(255,255,255,.5)">Desde</span>
+  <input type="date" id="g-d" onchange="setPeriodoGlobal()">
+  <span style="color:rgba(255,255,255,.5)">Hasta</span>
+  <input type="date" id="g-h" onchange="setPeriodoGlobal()">
+  <select onchange="qperG(this.value)">
+    <option value="">Personalizado</option>
+    <option value="mes">Este mes</option>
+    <option value="tri">Trimestre</option>
+    <option value="anio" selected>Este año</option>
+    <option value="todo">Todo</option>
+  </select>
+  <button onclick="setPeriodoGlobal()" style="background:#c9a227;border:none;color:#0a1628;padding:4px 12px;border-radius:5px;font-size:.72rem;font-weight:700;cursor:pointer">🔄 Actualizar Todo</button>
+  <span id="pbar-info" style="margin-left:auto;color:#f0c040;font-size:.7rem"></span>
+</div>
+<main>
+<!-- RESUMEN -->
+<div class="pag activo" id="pag-resumen">
+  <div class="mhdr">
+    <div><div class="mtit">📊 Panel General</div><div class="msub">Resumen ejecutivo</div></div>
+    <div class="mbtns">
+      <button class="btn bve sm" onclick="expXLS('resumen')">📊 Excel</button>
+      <button class="btn brj sm" onclick="expPDF('resumen')">📄 PDF</button>
+    </div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">📅 PERÍODO</span>
+    <div class="fg"><label>Desde</label><input class="fi" type="date" id="r-d" onchange="G('g-d').value=this.value;pintRes()"></div>
+    <div class="fg"><label>Hasta</label><input class="fi" type="date" id="r-h" onchange="G('g-h').value=this.value;pintRes()"></div>
+    <div class="fg"><label>Rápido</label><select class="fs" onchange="qper(this.value,'r-d','r-h');if(G('g-d'))G('g-d').value=V('r-d');if(G('g-h'))G('g-h').value=V('r-h');pintRes()" ><option value="">—</option><option value="mes">Mes</option><option value="tri">Trimestre</option><option value="anio" selected>Año</option><option value="todo">Todo</option></select></div>
+    <button class="btn bor sm" onclick="if(G('r-d')){G('g-d').value=V('r-d');G('g-h').value=V('r-h');} pintRes()">🔍 Filtrar</button>
+    <div class="fext"><button class="btn bve sm" onclick="expXLS('resumen')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('resumen')">📄 PDF</button></div>
+  </div>
+  <div class="cards">
+    <div class="card az"><div class="cv" id="r-cl">38</div><div class="cl">Clubes</div></div>
+    <div class="card"><div class="cv" id="r-pa">0</div><div class="cl">Partidos</div></div>
+    <div class="card ve"><div class="cv" id="r-in">$0</div><div class="cl">Ingresos Pagados</div></div>
+    <div class="card rj"><div class="cv" id="r-ga">$0</div><div class="cl">Gastos Pagados</div></div>
+    <div class="card or"><div class="cv" id="r-sa">$0</div><div class="cl">Saldo Real</div></div>
+    <div class="card am"><div class="cv" id="r-deu">$0</div><div class="cl">Por Cobrar</div></div>
+    <div class="card rj"><div class="cv" id="r-ven">$0</div><div class="cl">Vencido $</div></div>
+    <div class="card am"><div class="cv" id="r-pen">0</div><div class="cl">N° Pendientes</div></div>
+    <div class="card rj"><div class="cv" id="r-vec">0</div><div class="cl">N° Vencidos</div></div>
+    <div class="card am"><div class="cv" id="r-sn">0</div><div class="cl">Sancionados</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div class="ibox"><h4>💰 Proyección Mensual</h4>
+      <div class="ifila"><span>Borderos</span><span class="iv ve">$12.780.000</span></div>
+      <div class="ifila"><span>Arbitraje</span><span class="iv rj">-$7.338.000</span></div>
+      <div class="ifila"><span>Turnos</span><span class="iv rj">-$1.050.000</span></div>
+      <div class="ifila"><span>Mantención</span><span class="iv rj">-$288.000</span></div>
+      <div class="ifila"><span>Directiva</span><span class="iv rj">-$400.000</span></div>
+      <div class="ifila tot"><span>UTILIDAD NETA</span><span class="iv or">$3.704.000</span></div>
+    </div>
+    <div class="ibox"><h4>📅 Últimos Partidos</h4><div id="r-ult"><p style="color:#a0aec0;font-size:.82rem">Sin partidos registrados.</p></div></div>
+  </div>
+</div>
+
+<!-- TESORERÍA -->
+<div class="pag" id="pag-tesoreria">
+  <div class="mhdr">
+    <div><div class="mtit">💰 Tesorería</div><div class="msub">Movimientos financieros y borderos</div></div>
+    <div class="mbtns">
+      <button class="btn baz" onclick="abrirM('modal-mov')">➕ Nuevo Movimiento</button>
+      <button class="btn bve sm" onclick="expXLS('tesoreria')">📊 Excel</button>
+      <button class="btn brj sm" onclick="expPDF('tesoreria')">📄 PDF</button>
+    </div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">📅 PERÍODO</span>
+    <div class="fg"><label>Desde</label><input class="fi" type="date" id="t-d" onchange="G('g-d').value=this.value;pintMovs()"></div>
+    <div class="fg"><label>Hasta</label><input class="fi" type="date" id="t-h" onchange="G('g-h').value=this.value;pintMovs()"></div>
+    <div class="fg"><label>Rápido</label><select class="fs" onchange="qper(this.value,'t-d','t-h');if(G('g-d'))G('g-d').value=V('t-d');if(G('g-h'))G('g-h').value=V('t-h');pintMovs()" ><option value="">—</option><option value="mes">Mes</option><option value="tri">Trimestre</option><option value="anio" selected>Año</option><option value="todo">Todo</option></select></div>
+    <button class="btn bor sm" onclick="if(G('t-d')){G('g-d').value=V('t-d');G('g-h').value=V('t-h');} pintMovs()">🔍 Filtrar</button>
+    <div class="fext"><button class="btn baz sm" onclick="abrirM('modal-mov')">➕ Agregar</button><button class="btn bve sm" onclick="expXLS('tesoreria')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('tesoreria')">📄 PDF</button></div>
+  </div>
+  <div class="cards">
+    <div class="card ve"><div class="cv" id="t-in">$0</div><div class="cl">Ingresos Pagados</div></div>
+    <div class="card rj"><div class="cv" id="t-ga">$0</div><div class="cl">Gastos Pagados</div></div>
+    <div class="card or"><div class="cv" id="t-sa">$0</div><div class="cl">Saldo Real</div></div>
+    <div class="card am"><div class="cv" id="card-deu">$0</div><div class="cl">Por Cobrar</div></div>
+    <div class="card rj"><div class="cv" id="card-ven2">$0</div><div class="cl">Vencido $</div></div>
+    <div class="card am"><div class="cv" id="t-pe">0</div><div class="cl">N° Pendientes</div></div>
+    <div class="card rj"><div class="cv" id="t-ve">0</div><div class="cl">N° Vencidos</div></div>
+  </div>
+  <p style="font-size:.68rem;color:#718096;margin-bottom:8px">ℹ️ La tabla muestra <b>todos</b> los movimientos del período. El <b>Saldo Real</b> = solo Pagados (igual que Panel General)</p>
+  <p style="font-weight:700;color:#1a3a6b;margin-bottom:8px;font-size:.85rem">📒 Movimientos</p>
+  <div class="tw"><table><thead><tr><th>Fecha</th><th>Tipo</th><th>Club/Concepto</th><th>Categoría</th><th>Ingreso $</th><th>Gasto $</th><th>Estado</th><th>Glosa</th><th></th></tr></thead><tbody id="tb-movs"></tbody></table></div>
+</div>
+
+<!-- DISCIPLINA -->
+<div class="pag" id="pag-disciplina">
+  <div class="mhdr">
+    <div><div class="mtit">⚖️ Disciplina</div><div class="msub">Sanciones, tarjetas y multas</div></div>
+    <div class="mbtns">
+      <button class="btn baz" onclick="abrirM('modal-sanc')">➕ Nueva Sanción</button>
+      <button class="btn bve sm" onclick="expXLS('disciplina')">📊 Excel</button>
+      <button class="btn brj sm" onclick="expPDF('disciplina')">📄 PDF</button>
+    </div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">📅 PERÍODO</span>
+    <div class="fg"><label>Desde</label><input class="fi" type="date" id="d-d" onchange="G('g-d').value=this.value;pintSancs()"></div>
+    <div class="fg"><label>Hasta</label><input class="fi" type="date" id="d-h" onchange="G('g-h').value=this.value;pintSancs()"></div>
+    <div class="fg"><label>Rápido</label><select class="fs" onchange="qper(this.value,'d-d','d-h');if(G('g-d'))G('g-d').value=V('d-d');if(G('g-h'))G('g-h').value=V('d-h');pintSancs()" ><option value="">—</option><option value="mes">Mes</option><option value="tri">Trimestre</option><option value="anio" selected>Año</option><option value="todo">Todo</option></select></div>
+    <button class="btn bor sm" onclick="if(G('d-d')){G('g-d').value=V('d-d');G('g-h').value=V('d-h');} pintSancs()">🔍 Filtrar</button>
+    <div class="fext"><button class="btn baz sm" onclick="abrirM('modal-sanc')">➕ Agregar</button><button class="btn bve sm" onclick="expXLS('disciplina')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('disciplina')">📄 PDF</button></div>
+  </div>
+  <div class="cards">
+    <div class="card rj"><div class="cv" id="d-ac">0</div><div class="cl">Activas</div></div>
+    <div class="card am"><div class="cv" id="d-am">0</div><div class="cl">Amarillas</div></div>
+    <div class="card rj"><div class="cv" id="d-ro">0</div><div class="cl">Rojas</div></div>
+    <div class="card ve"><div class="cv" id="d-cu">0</div><div class="cl">Cumplidas</div></div>
+    <div class="card or"><div class="cv" id="d-mu">$0</div><div class="cl">Multas</div></div>
+  </div>
+  <div class="tw"><table><thead><tr><th>N°Acta</th><th>Fecha</th><th>Jugador</th><th>Club</th><th>Serie</th><th>Sanción</th><th>Fechas</th><th>Multa $</th><th>Estado</th><th></th></tr></thead><tbody id="tb-sancs"></tbody></table></div>
+</div>
+
+<!-- PRESIDENCIA -->
+<div class="pag" id="pag-presidencia">
+  <div class="mhdr">
+    <div><div class="mtit">👔 Presidencia</div><div class="msub">Circulares, comunicados y reuniones</div></div>
+    <div class="mbtns">
+      <button class="btn bam" onclick="abrirM('modal-reun')">➕ Reunión</button>
+      <button class="btn baz" onclick="abrirM('modal-circ')">➕ Circular</button>
+      <button class="btn bve sm" onclick="expXLS('presidencia')">📊 Excel</button>
+      <button class="btn brj sm" onclick="expPDF('presidencia')">📄 PDF</button>
+    </div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">📅 PERÍODO</span>
+    <div class="fg"><label>Desde</label><input class="fi" type="date" id="p-d" onchange="G('g-d').value=this.value;pintCircs()"></div>
+    <div class="fg"><label>Hasta</label><input class="fi" type="date" id="p-h" onchange="G('g-h').value=this.value;pintCircs()"></div>
+    <div class="fg"><label>Rápido</label><select class="fs" onchange="qper(this.value,'p-d','p-h');if(G('g-d'))G('g-d').value=V('p-d');if(G('g-h'))G('g-h').value=V('p-h');pintCircs()" ><option value="">—</option><option value="mes">Mes</option><option value="tri">Trimestre</option><option value="anio" selected>Año</option><option value="todo">Todo</option></select></div>
+    <button class="btn bor sm" onclick="if(G('p-d')){G('g-d').value=V('p-d');G('g-h').value=V('p-h');} pintCircs()">🔍 Filtrar</button>
+    <div class="fext"><button class="btn bam sm" onclick="abrirM('modal-reun')">➕ Reunión</button><button class="btn baz sm" onclick="abrirM('modal-circ')">➕ Circular</button><button class="btn bve sm" onclick="expXLS('presidencia')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('presidencia')">📄 PDF</button></div>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="cv" id="p-ci">0</div><div class="cl">Circulares</div></div>
+    <div class="card am"><div class="cv" id="p-re">0</div><div class="cl">Reuniones</div></div>
+    <div class="card az"><div class="cv" id="p-ac">0</div><div class="cl">Con Acuerdos</div></div>
+  </div>
+  <div class="tw"><table><thead><tr><th>#</th><th>Fecha</th><th>Tipo</th><th>Asunto</th><th>Dirigido a</th><th>Firmado por</th><th></th></tr></thead><tbody id="tb-circs"></tbody></table></div>
+</div>
+
+<!-- SECRETARÍA -->
+<div class="pag" id="pag-secretaria">
+  <div class="mhdr">
+    <div><div class="mtit">📋 Secretaría</div><div class="msub">Pases, inscripciones y trámites</div></div>
+    <div class="mbtns">
+      <button class="btn baz" onclick="abrirM('modal-tram')">➕ Nuevo Trámite</button>
+      <button class="btn bve sm" onclick="expXLS('secretaria')">📊 Excel</button>
+      <button class="btn brj sm" onclick="expPDF('secretaria')">📄 PDF</button>
+    </div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">📅 PERÍODO</span>
+    <div class="fg"><label>Desde</label><input class="fi" type="date" id="s-d" onchange="G('g-d').value=this.value;pintTrams()"></div>
+    <div class="fg"><label>Hasta</label><input class="fi" type="date" id="s-h" onchange="G('g-h').value=this.value;pintTrams()"></div>
+    <div class="fg"><label>Rápido</label><select class="fs" onchange="qper(this.value,'s-d','s-h');if(G('g-d'))G('g-d').value=V('s-d');if(G('g-h'))G('g-h').value=V('s-h');pintTrams()" ><option value="">—</option><option value="mes">Mes</option><option value="tri">Trimestre</option><option value="anio" selected>Año</option><option value="todo">Todo</option></select></div>
+    <button class="btn bor sm" onclick="if(G('s-d')){G('g-d').value=V('s-d');G('g-h').value=V('s-h');} pintTrams()">🔍 Filtrar</button>
+    <div class="fext"><button class="btn baz sm" onclick="abrirM('modal-tram')">➕ Agregar</button><button class="btn bve sm" onclick="expXLS('secretaria')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('secretaria')">📄 PDF</button></div>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="cv" id="s-to">0</div><div class="cl">Trámites</div></div>
+    <div class="card az"><div class="cv" id="s-pa">0</div><div class="cl">Pases</div></div>
+    <div class="card am"><div class="cv" id="s-pe">0</div><div class="cl">Pendientes</div></div>
+    <div class="card ve"><div class="cv" id="s-ap">0</div><div class="cl">Aprobados</div></div>
+  </div>
+  <div class="tw"><table><thead><tr><th>Fecha</th><th>Tipo</th><th>Club</th><th>Detalle</th><th>Estado</th><th></th></tr></thead><tbody id="tb-trams"></tbody></table></div>
+</div>
+
+<!-- FIXTURE -->
+<div class="pag" id="pag-fixture">
+  <div class="mhdr">
+    <div><div class="mtit">📅 Fixture y Resultados</div><div class="msub">Programación y resultados de partidos</div></div>
+    <div class="mbtns">
+      <button class="btn baz" onclick="abrirM('modal-part')">➕ Nuevo Partido</button>
+      <button class="btn bam" onclick="abrirImportFix()">📥 Importar Excel</button>
+      <button class="btn bve sm" onclick="expXLS('fixture')">📊 Excel</button>
+      <button class="btn brj sm" onclick="expPDF('fixture')">📄 PDF</button>
+    </div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">📅 PERÍODO</span>
+    <div class="fg"><label>Desde</label><input class="fi" type="date" id="f-d" onchange="G('g-d').value=this.value;pintFix()"></div>
+    <div class="fg"><label>Hasta</label><input class="fi" type="date" id="f-h" onchange="G('g-h').value=this.value;pintFix()"></div>
+    <div class="fg"><label>Serie</label><select class="fs" id="f-s" onchange="pintFix()"><option value="">Todas</option><option>3° Adulto</option><option>2° Adulto</option><option>1° Adulto</option><option>Seniors</option><option>Super Senior</option><option>Dorados</option><option>3° Infantil</option><option>2° Infantil</option><option>1° Infantil</option><option>Juvenil</option>
+<option disabled>──────────────</option>
+<option value="TABLA_ADULTOS">🏆 Tabla General Adultos</option>
+</select></div>
+    <button class="btn bor sm" onclick="if(G('f-d')){G('g-d').value=V('f-d');G('g-h').value=V('f-h');} pintFix()">🔍 Filtrar</button>
+    <div class="fext"><button class="btn baz sm" onclick="abrirM('modal-part')">➕ Partido</button><button class="btn bve sm" onclick="expXLS('fixture')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('fixture')">📄 PDF</button></div>
+  </div>
+  <div class="fix-lista" id="fix-lista"><div class="empty"><span>📅</span><p>Sin partidos. Haz clic en "➕ Nuevo Partido" para agregar.</p></div></div>
+</div>
+
+<!-- POSICIONES -->
+<div class="pag" id="pag-posiciones">
+  <div class="mhdr">
+    <div><div class="mtit">🏆 Tabla de Posiciones</div><div class="msub">Calculada automáticamente desde los partidos</div></div>
+    <div class="mbtns">
+      <button class="btn baz" onclick="abrirM('modal-part')">➕ Partido</button>
+      <button class="btn bve sm" onclick="expXLS('posiciones')">📊 Excel</button>
+      <button class="btn brj sm" onclick="expPDF('posiciones')">📄 PDF</button>
+    </div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">🏆 SERIE</span>
+    <div class="fg"><label>Serie</label><select class="fs" id="po-s" onchange="pintPos()"><option value="">— Elige serie —</option><option>3° Adulto</option><option>2° Adulto</option><option>1° Adulto</option><option>Seniors</option><option>Super Senior</option><option>Dorados</option><option>3° Infantil</option><option>2° Infantil</option><option>1° Infantil</option><option>Juvenil</option>
+<option disabled>──────────────</option>
+<option value="TABLA_ADULTOS">🏆 Tabla General Adultos</option>
+</select></div>
+    <div class="fg"><label>Desde</label><input class="fi" type="date" id="po-d"></div>
+    <div class="fg"><label>Hasta</label><input class="fi" type="date" id="po-h"></div>
+    <button class="btn bor sm" onclick="pintPos()">🔍 Ver</button>
+    <div class="fext"><button class="btn bve sm" onclick="expXLS('posiciones')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('posiciones')">📄 PDF</button></div>
+  </div>
+  <div class="tw"><table><thead><tr><th>#</th><th>Club</th><th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th></tr></thead><tbody id="tb-pos"><tr><td colspan="10"><div class="empty"><span>🏆</span><p>Selecciona una serie para ver la tabla.</p></div></td></tr></tbody></table></div>
+</div>
+
+<!-- CLUBES -->
+<div class="pag" id="pag-clubes">
+  <div class="mhdr">
+    <div><div class="mtit">🛡️ Clubes Asociados</div><div class="msub">38 clubes afiliados</div></div>
+    <div class="mbtns">
+      <button class="btn baz" onclick="abrirM('modal-club')">➕ Agregar Club</button>
+      <button class="btn bve sm" onclick="expXLS('clubes')">📊 Excel</button>
+      <button class="btn brj sm" onclick="expPDF('clubes')">📄 PDF</button>
+    </div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">🔍 BUSCAR</span>
+    <div class="fg"><label>Nombre</label><input class="fi" type="text" placeholder="Buscar club..." oninput="filtTab('tb-clubes',this.value,1)" style="min-width:200px"></div>
+    <div class="fg"><label>Período (desde Tesorería)</label>
+      <select class="fs" onchange="qper(this.value,'t-d','t-h');if(G('g-d'))G('g-d').value=V('t-d');if(G('g-h'))G('g-h').value=V('t-h');pintClubes()" >
+        <option value="">Personalizado</option>
+        <option value="mes">Este mes</option>
+        <option value="tri">Trimestre</option>
+        <option value="anio" selected>Este año</option>
+        <option value="todo">Todo</option>
+      </select>
+    </div>
+    <span style="color:rgba(255,255,255,.65);font-size:.7rem;align-self:center">Los pagos reflejan lo registrado en Tesorería</span>
+    <div class="fext"><button class="btn baz sm" onclick="abrirM('modal-club')">➕ Agregar</button><button class="btn bve sm" onclick="expXLS('clubes')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('clubes')">📄 PDF</button></div>
+  </div>
+  <div class="tw"><table><thead><tr><th>#</th><th>Club</th><th>Series</th><th>Delegado</th><th>Teléfono</th><th>Pagado $</th><th>Deuda $</th><th>Estado</th><th></th></tr></thead><tbody id="tb-clubes"></tbody></table></div>
+</div>
+
+<!-- SERIES -->
+<div class="pag" id="pag-series">
+  <div class="mhdr">
+    <div><div class="mtit">📂 Series por Categoría</div><div class="msub">Asignación de clubes por serie</div></div>
+    <div class="mbtns"><button class="btn bve sm" onclick="expXLS('series')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('series')">📄 PDF</button></div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">📂 CATEGORÍA</span>
+    <span style="color:rgba(255,255,255,.7);font-size:.82rem;align-self:center">Selecciona categoría y asigna serie a cada club</span>
+    <div class="fext"><button class="btn bve sm" onclick="expXLS('series')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('series')">📄 PDF</button></div>
+  </div>
+  <div class="stabs">
+    <button class="stab activo" onclick="mostrarCat('adultos',this)">👟 Adultos</button>
+    <button class="stab" onclick="mostrarCat('seniors',this)">🎖️ Seniors / Dorados</button>
+    <button class="stab" onclick="mostrarCat('infantil',this)">⚽ Infantil / Juvenil</button>
+  </div>
+  <div id="cat-adultos"><div class="tw"><table><thead><tr><th>#</th><th>Club</th><th>Series Asignadas</th><th>Asignar / Quitar</th></tr></thead><tbody id="tb-sa"></tbody></table></div></div>
+  <div id="cat-seniors" style="display:none"><div class="tw"><table><thead><tr><th>#</th><th>Club</th><th>Series Asignadas</th><th>Asignar / Quitar</th></tr></thead><tbody id="tb-ss"></tbody></table></div></div>
+  <div id="cat-infantil" style="display:none"><div class="tw"><table><thead><tr><th>#</th><th>Club</th><th>Series Asignadas</th><th>Asignar / Quitar</th></tr></thead><tbody id="tb-si"></tbody></table></div></div>
+</div>
+
+<!-- ÁRBITROS -->
+<div class="pag" id="pag-arbitros">
+  <div class="mhdr">
+    <div><div class="mtit">🎯 Cuerpo Arbitral</div><div class="msub">Registro y pagos del período</div></div>
+    <div class="mbtns">
+      <button class="btn baz" onclick="abrirM('modal-arb')">➕ Registrar Árbitro</button>
+      <button class="btn bve sm" onclick="expXLS('arbitros')">📊 Excel</button>
+      <button class="btn brj sm" onclick="expPDF('arbitros')">📄 PDF</button>
+    </div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">📅 PERÍODO</span>
+    <div class="fg"><label>Desde</label><input class="fi" type="date" id="a-d" onchange="G('g-d').value=this.value;pintArbs()"></div>
+    <div class="fg"><label>Hasta</label><input class="fi" type="date" id="a-h" onchange="G('g-h').value=this.value;pintArbs()"></div>
+    <div class="fg"><label>Rápido</label><select class="fs" onchange="qper(this.value,'a-d','a-h');if(G('g-d'))G('g-d').value=V('a-d');if(G('g-h'))G('g-h').value=V('a-h');pintArbs()" ><option value="">—</option><option value="mes">Mes</option><option value="anio" selected>Año</option><option value="todo">Todo</option></select></div>
+    <button class="btn bor sm" onclick="if(G('a-d')){G('g-d').value=V('a-d');G('g-h').value=V('a-h');} pintArbs()">🔍 Filtrar</button>
+    <div class="fext"><button class="btn baz sm" onclick="abrirM('modal-arb')">➕ Árbitro</button><button class="btn bve sm" onclick="expXLS('arbitros')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('arbitros')">📄 PDF</button></div>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="cv" id="a-to">0</div><div class="cl">Árbitros</div></div>
+    <div class="card ve"><div class="cv" id="a-ac">0</div><div class="cl">Activos</div></div>
+    <div class="card or"><div class="cv" id="a-pa">$0</div><div class="cl">Pagos Período</div></div>
+  </div>
+  <div class="tw"><table><thead><tr><th>#</th><th>Nombre</th><th>RUT</th><th>Teléfono</th><th>Nivel</th><th>Tarifa</th><th>Partidos</th><th>Total Período</th><th>Estado</th><th></th></tr></thead><tbody id="tb-arbs"></tbody></table></div>
+</div>
+
+<!-- JUGADORES -->
+<div class="pag" id="pag-jugadores">
+  <div class="mhdr">
+    <div><div class="mtit">👟 Jugadores</div><div class="msub">Nómina por club y serie</div></div>
+    <div class="mbtns">
+      <button class="btn baz" onclick="abrirM('modal-jug')">➕ Registrar Jugador</button>
+      <button class="btn bve sm" onclick="expXLS('jugadores')">📊 Excel</button>
+      <button class="btn brj sm" onclick="expPDF('jugadores')">📄 PDF</button>
+    </div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">🔍 FILTRAR</span>
+    <div class="fg"><label>Nombre</label><input class="fi" type="text" placeholder="Buscar..." oninput="filtTab('tb-jugs',this.value,1)" style="min-width:150px"></div>
+    <div class="fg"><label>Club</label><select class="fs" id="jug-cl" onchange="pintJugs()"><option value="">Todos</option></select></div>
+    <div class="fg"><label>Serie</label><select class="fs" id="jug-se" onchange="pintJugs()"><option value="">Todas</option><option>3° Adulto</option><option>2° Adulto</option><option>1° Adulto</option><option>Seniors</option><option>Super Senior</option><option>Dorados</option><option>3° Infantil</option><option>2° Infantil</option><option>1° Infantil</option><option>Juvenil</option>
+<option disabled>──────────────</option>
+<option value="TABLA_ADULTOS">🏆 Tabla General Adultos</option>
+</select></div>
+    <div class="fext"><button class="btn baz sm" onclick="abrirM('modal-jug')">➕ Jugador</button><button class="btn bve sm" onclick="expXLS('jugadores')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('jugadores')">📄 PDF</button></div>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="cv" id="j-to">0</div><div class="cl">Jugadores</div></div>
+    <div class="card az"><div class="cv" id="j-cl">0</div><div class="cl">Clubes</div></div>
+    <div class="card rj"><div class="cv" id="j-sa">0</div><div class="cl">Sancionados</div></div>
+  </div>
+  <div class="tw"><table><thead><tr><th>#</th><th>Nombre</th><th>RUT</th><th>Club</th><th>Serie</th><th>Posición</th><th>N°</th><th>Estado</th><th></th></tr></thead><tbody id="tb-jugs"></tbody></table></div>
+</div>
+
+<!-- ACTAS -->
+<div class="pag" id="pag-actas">
+  <div class="mhdr">
+    <div><div class="mtit">📄 Actas de Partido</div><div class="msub">Registro oficial de incidencias</div></div>
+    <div class="mbtns">
+      <button class="btn baz" onclick="abrirM('modal-acta')">➕ Nueva Acta</button>
+      <button class="btn bve sm" onclick="expXLS('actas')">📊 Excel</button>
+      <button class="btn brj sm" onclick="expPDF('actas')">📄 PDF</button>
+    </div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">📅 PERÍODO</span>
+    <div class="fg"><label>Desde</label><input class="fi" type="date" id="ac-d" onchange="G('g-d').value=this.value;pintActas()"></div>
+    <div class="fg"><label>Hasta</label><input class="fi" type="date" id="ac-h" onchange="G('g-h').value=this.value;pintActas()"></div>
+    <div class="fg"><label>Rápido</label><select class="fs" onchange="qper(this.value,'ac-d','ac-h');if(G('g-d'))G('g-d').value=V('ac-d');if(G('g-h'))G('g-h').value=V('ac-h');pintActas()" ><option value="">—</option><option value="mes">Mes</option><option value="anio" selected>Año</option><option value="todo">Todo</option></select></div>
+    <button class="btn bor sm" onclick="if(G('ac-d')){G('g-d').value=V('ac-d');G('g-h').value=V('ac-h');} pintActas()">🔍 Filtrar</button>
+    <div class="fext"><button class="btn baz sm" onclick="abrirM('modal-acta')">➕ Acta</button><button class="btn bve sm" onclick="expXLS('actas')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('actas')">📄 PDF</button></div>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="cv" id="ac-to">0</div><div class="cl">Actas</div></div>
+    <div class="card am"><div class="cv" id="ac-in">0</div><div class="cl">Con Incidencias</div></div>
+    <div class="card rj"><div class="cv" id="ac-su">0</div><div class="cl">Con Suspensiones</div></div>
+  </div>
+  <div class="tw"><table><thead><tr><th>N°Acta</th><th>Fecha</th><th>Serie</th><th>Local</th><th>Resultado</th><th>Visitante</th><th>Árbitro</th><th>Incidencias</th><th></th></tr></thead><tbody id="tb-actas"></tbody></table></div>
+</div>
+
+<!-- FINANCIERO -->
+<div class="pag" id="pag-financiero">
+  <div class="mhdr">
+    <div><div class="mtit">📈 Proyección Financiera 2026</div><div class="msub">124 equipos · 10 meses</div></div>
+    <div class="mbtns"><button class="btn bve sm" onclick="expXLS('financiero')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('financiero')">📄 PDF</button></div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">📊 TEMPORADA 2026</span>
+    <span style="color:rgba(255,255,255,.7);font-size:.82rem;align-self:center">124 equipos · 10 meses · Proyección anual completa</span>
+    <div class="fext"><button class="btn bve sm" onclick="expXLS('financiero')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('financiero')">📄 PDF</button></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+    <div class="ibox"><h4>📊 Resumen Anual</h4>
+      <div class="ifila"><span>Ingresos borderos</span><span class="iv ve">$127.800.000</span></div>
+      <div class="ifila"><span>Cuerpo arbitral</span><span class="iv rj">-$73.380.000</span></div>
+      <div class="ifila"><span>Turnos cancha</span><span class="iv rj">-$10.500.000</span></div>
+      <div class="ifila"><span>Mantención</span><span class="iv rj">-$2.880.000</span></div>
+      <div class="ifila"><span>Directiva</span><span class="iv rj">-$4.000.000</span></div>
+      <div class="ifila tot"><span>UTILIDAD NETA ANUAL</span><span class="iv or">$37.040.000</span></div>
+    </div>
+    <div class="ibox"><h4>👔 Directiva Mensual</h4>
+      <div class="ifila"><span>Presidente</span><span class="iv">$150.000</span></div>
+      <div class="ifila"><span>1° Director</span><span class="iv">$50.000</span></div>
+      <div class="ifila"><span>Tesorero/a</span><span class="iv">$50.000</span></div>
+      <div class="ifila"><span>Secretario/a</span><span class="iv">$50.000</span></div>
+      <div class="ifila"><span>2° Director</span><span class="iv">$50.000</span></div>
+      <div class="ifila"><span>3° Director</span><span class="iv">$50.000</span></div>
+      <div class="ifila tot"><span>TOTAL MES</span><span class="iv">$400.000</span></div>
+    </div>
+  </div>
+  <div class="tw"><table><thead><tr><th>Serie</th><th>Equipos</th><th>Borderó</th><th>Ing. Mensual</th><th>Arbitraje</th><th>Turnos</th><th>Margen/Mes</th><th>Margen/Año</th></tr></thead><tbody>
+    <tr><td>Seniors</td><td>22</td><td>$22.000</td><td style="color:#15803d;font-weight:600">$1.936.000</td><td style="color:#b91c1c">$968.000</td><td style="color:#b91c1c">$220.000</td><td style="color:#b45309;font-weight:600">$748.000</td><td style="font-weight:700">$7.480.000</td></tr>
+    <tr><td>Super Senior</td><td>19</td><td>$22.000</td><td style="color:#15803d;font-weight:600">$1.672.000</td><td style="color:#b91c1c">$836.000</td><td style="color:#b91c1c">$190.000</td><td style="color:#b45309;font-weight:600">$646.000</td><td style="font-weight:700">$6.460.000</td></tr>
+    <tr><td>Dorados</td><td>20</td><td>$22.000</td><td style="color:#15803d;font-weight:600">$1.760.000</td><td style="color:#b91c1c">$880.000</td><td style="color:#b91c1c">$200.000</td><td style="color:#b45309;font-weight:600">$680.000</td><td style="font-weight:700">$6.800.000</td></tr>
+    <tr><td>Adultos</td><td>22</td><td>$60.000</td><td style="color:#15803d;font-weight:600">$5.280.000</td><td style="color:#b91c1c">$3.564.000</td><td style="color:#b91c1c">$440.000</td><td style="color:#b45309;font-weight:600">$1.276.000</td><td style="font-weight:700">$12.760.000</td></tr>
+    <tr><td>1° Infantil</td><td>17</td><td>$13.000</td><td style="color:#15803d;font-weight:600">$884.000</td><td style="color:#b91c1c">$442.000</td><td>—</td><td style="color:#b45309;font-weight:600">$442.000</td><td style="font-weight:700">$4.420.000</td></tr>
+    <tr><td>2° Infantil</td><td>12</td><td>$12.000</td><td style="color:#15803d;font-weight:600">$576.000</td><td style="color:#b91c1c">$288.000</td><td>—</td><td style="color:#b45309;font-weight:600">$288.000</td><td style="font-weight:700">$2.880.000</td></tr>
+    <tr><td>Juvenil</td><td>12</td><td>$14.000</td><td style="color:#15803d;font-weight:600">$672.000</td><td style="color:#b91c1c">$360.000</td><td>—</td><td style="color:#b45309;font-weight:600">$312.000</td><td style="font-weight:700">$3.120.000</td></tr>
+    <tr style="background:#1a3a6b;color:#fff"><td><b>TOTAL</b></td><td><b>124</b></td><td>—</td><td style="color:#86efac;font-weight:700">$12.780.000</td><td style="color:#fca5a5">$7.338.000</td><td style="color:#fca5a5">$1.050.000</td><td style="color:#fcd34d;font-weight:700">$3.704.000</td><td style="color:#fcd34d;font-weight:700">$37.040.000</td></tr>
+  </tbody></table></div>
+</div>
+
+<!-- INFORMES -->
+<div class="pag" id="pag-informes">
+  <div class="mhdr">
+    <div><div class="mtit" style="color:#78350f">📑 Generador de Informes</div><div class="msub">Exporta cada área con encabezado institucional</div></div>
+    <div class="mbtns"><button class="btn bve" onclick="expXLS('completo')">📊 Excel Completo</button><button class="btn brj" onclick="expPDF('completo')">📄 PDF Completo</button></div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">ℹ️ USO</span>
+    <span style="color:rgba(255,255,255,.75);font-size:.82rem;align-self:center">Los informes usan el período configurado en cada módulo.</span>
+    <div class="fext"><button class="btn bve sm" onclick="expXLS('completo')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('completo')">📄 PDF</button></div>
+  </div>
+  <div class="igrid">
+    <div class="icard"><h4>💰 Tesorería</h4><p>Movimientos y borderos.</p><div style="display:flex;gap:7px"><button class="btn bve sm" onclick="expXLS('tesoreria')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('tesoreria')">📄 PDF</button></div></div>
+    <div class="icard"><h4>⚖️ Disciplina</h4><p>Sanciones y multas.</p><div style="display:flex;gap:7px"><button class="btn bve sm" onclick="expXLS('disciplina')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('disciplina')">📄 PDF</button></div></div>
+    <div class="icard"><h4>👔 Presidencia</h4><p>Circulares y reuniones.</p><div style="display:flex;gap:7px"><button class="btn bve sm" onclick="expXLS('presidencia')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('presidencia')">📄 PDF</button></div></div>
+    <div class="icard"><h4>📋 Secretaría</h4><p>Pases y trámites.</p><div style="display:flex;gap:7px"><button class="btn bve sm" onclick="expXLS('secretaria')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('secretaria')">📄 PDF</button></div></div>
+    <div class="icard"><h4>📅 Fixture</h4><p>Partidos y resultados.</p><div style="display:flex;gap:7px"><button class="btn bve sm" onclick="expXLS('fixture')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('fixture')">📄 PDF</button></div></div>
+    <div class="icard"><h4>🛡️ Clubes</h4><p>Los 38 clubes y pagos.</p><div style="display:flex;gap:7px"><button class="btn bve sm" onclick="expXLS('clubes')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('clubes')">📄 PDF</button></div></div>
+    <div class="icard"><h4>🎯 Árbitros</h4><p>Árbitros y pagos.</p><div style="display:flex;gap:7px"><button class="btn bve sm" onclick="expXLS('arbitros')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('arbitros')">📄 PDF</button></div></div>
+    <div class="icard"><h4>👟 Jugadores</h4><p>Nómina completa.</p><div style="display:flex;gap:7px"><button class="btn bve sm" onclick="expXLS('jugadores')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('jugadores')">📄 PDF</button></div></div>
+    <div class="icard"><h4>📄 Actas</h4><p>Actas e incidencias.</p><div style="display:flex;gap:7px"><button class="btn bve sm" onclick="expXLS('actas')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('actas')">📄 PDF</button></div></div>
+    <div class="icard"><h4>📈 Financiero</h4><p>Proyección 2026.</p><div style="display:flex;gap:7px"><button class="btn bve sm" onclick="expXLS('financiero')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('financiero')">📄 PDF</button></div></div>
+    <div class="icard ppal">
+      <h4>📑 INFORME GENERAL COMPLETO</h4>
+      <p>Excel con una hoja por módulo. PDF institucional completo con portada y datos de la asociación.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn bve" onclick="expXLS('completo')">📊 Excel Completo</button>
+        <button class="btn brj" onclick="expPDF('completo')">📄 PDF Informe General</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="pag" id="pag-admin">
+  <div class="mhdr">
+    <div><div class="mtit" style="color:#78350f">⚙️ Administración</div><div class="msub">Gestión de clubes, borderos y configuración</div></div>
+    <div class="mbtns">
+      <button class="btn baz" onclick="abrirM('modal-club')">➕ Club</button>
+      <button class="btn baz" onclick="abrirM('modal-mov')">➕ Movimiento</button>
+      <button class="btn bve sm" onclick="expXLS('completo')">📊 Excel</button>
+      <button class="btn brj sm" onclick="expPDF('completo')">📄 PDF</button>
+      <button class="btn bgr sm" onclick="resetDB()" style="border:1px solid #dc2626;color:#dc2626">🗑️ Borrar todo</button>
+      <button class="btn bgr sm" onclick="limpiarDatos()" style="border:1px solid #d97706;color:#d97706">🧹 Limpiar datos</button>
+      <button class="btn bve sm" onclick="exportarDB()">💾 Exportar DB</button>
+      <button class="btn baz sm" onclick="importarDB()">📂 Importar DB</button>
+    </div>
+  </div>
+  <div class="filtro">
+    <span class="ftit">⚙️ PANEL</span>
+    <span style="color:rgba(255,255,255,.7);font-size:.82rem;align-self:center">Administra clubes, montos de bordero y revisa últimos registros</span>
+    <div class="fext"><button class="btn baz sm" onclick="abrirM('modal-club')">➕ Club</button><button class="btn bve sm" onclick="expXLS('completo')">📊 Excel</button><button class="btn brj sm" onclick="expPDF('completo')">📄 PDF</button></div>
+  </div>
+  <div class="agrid">
+    <div class="ablq"><h4>🛡️ Clubes</h4>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <input type="text" placeholder="Buscar..." oninput="pintAdmClubes(this.value)" style="flex:1;background:#f7fafc;border:1px solid #e2e8f0;padding:7px 10px;border-radius:6px;font-size:.82rem;font-family:system-ui">
+        <button class="btn baz sm" onclick="abrirM('modal-club')">+ Nuevo</button>
+      </div>
+      <div style="max-height:320px;overflow-y:auto" id="adm-cls"></div>
+    </div>
+    <div class="ablq"><h4>💰 Borderó por Serie ($)</h4><div id="adm-ser"></div></div>
+  </div>
+  <div class="agrid">
+    <div class="ablq"><h4>💰 Últimos Movimientos</h4><div style="max-height:260px;overflow-y:auto" id="adm-movs"></div></div>
+    <div class="ablq"><h4>⚖️ Últimas Sanciones</h4><div style="max-height:260px;overflow-y:auto" id="adm-sancs"></div></div>
+  </div>
+</div>
+</main>
+
+<!-- MODALES -->
+<div class="ov" id="modal-club" onclick="if(event.target===this)cerrarM(this.id)">
+  <div class="mc">
+    <div class="mtit2">🛡️ <span id="mc-tit">Agregar Club</span></div>
+    <input type="hidden" id="mc-id">
+    <div class="campo"><label>Nombre del club *</label><input type="text" id="mc-n" placeholder="Nombre oficial..."></div>
+    <div class="g2">
+      <div class="campo"><label>Delegado</label><input type="text" id="mc-d"></div>
+      <div class="campo"><label>Teléfono</label><input type="text" id="mc-t"></div>
+    </div>
+    <div class="campo"><label>Categoría Adultos</label>
+      <select id="mc-ca" style="width:100%;background:#f7fafc;border:1px solid #e2e8f0;padding:8px 10px;border-radius:7px;font-size:.82rem;font-family:system-ui">
+        <option value="">— No participa en Adultos —</option>
+        <option value="Honor">Serie de Honor</option>
+        <option value="Descenso">Serie de Descenso</option>
+      </select>
+    </div>
+    <div class="campo"><label>Series en que participa</label>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
+        <label style="display:flex;align-items:center;gap:4px;padding:4px 9px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:.75rem"><input type="checkbox" value="3° Adulto"> 3° Adulto</label>
+        <label style="display:flex;align-items:center;gap:4px;padding:4px 9px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:.75rem"><input type="checkbox" value="2° Adulto"> 2° Adulto</label>
+        <label style="display:flex;align-items:center;gap:4px;padding:4px 9px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:.75rem"><input type="checkbox" value="1° Adulto"> 1° Adulto</label>
+        <label style="display:flex;align-items:center;gap:4px;padding:4px 9px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:.75rem"><input type="checkbox" value="Seniors"> Seniors</label>
+        <label style="display:flex;align-items:center;gap:4px;padding:4px 9px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:.75rem"><input type="checkbox" value="Super Senior"> Super Senior</label>
+        <label style="display:flex;align-items:center;gap:4px;padding:4px 9px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:.75rem"><input type="checkbox" value="Dorados"> Dorados</label>
+        <label style="display:flex;align-items:center;gap:4px;padding:4px 9px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:.75rem"><input type="checkbox" value="3° Infantil"> 3° Infantil</label>
+        <label style="display:flex;align-items:center;gap:4px;padding:4px 9px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:.75rem"><input type="checkbox" value="2° Infantil"> 2° Infantil</label>
+        <label style="display:flex;align-items:center;gap:4px;padding:4px 9px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:.75rem"><input type="checkbox" value="1° Infantil"> 1° Infantil</label>
+        <label style="display:flex;align-items:center;gap:4px;padding:4px 9px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:.75rem"><input type="checkbox" value="Juvenil"> Juvenil</label>
+      </div>
+    </div>
+    <div class="mpie"><button class="btn bgr" onclick="cerrarM('modal-club')">Cancelar</button><button class="btn baz" onclick="gClub()">💾 Guardar Club</button></div>
+  </div>
+</div>
+
+<div class="ov" id="modal-mov" onclick="if(event.target===this)cerrarM(this.id)">
+  <div class="mc">
+    <div class="mtit2">💰 Nuevo Movimiento</div>
+    <div class="g2">
+      <div class="campo"><label>Tipo *</label><select id="mv-tp"><option>Ingreso</option><option>Gasto</option></select></div>
+      <div class="campo"><label>Fecha *</label><input type="date" id="mv-fe"></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Club / Concepto</label><select id="mv-cl"></select></div>
+      <div class="campo"><label>Categoría</label><select id="mv-ca"><option>Bordero</option><option>Inscripción</option><option>Multa</option><option>Pase</option><option>Arbitraje</option><option>Turno</option><option>Mantención</option><option>Dirigencial</option><option>Otro</option></select></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Monto $ *</label><input type="number" id="mv-mo" min="0" placeholder="0"></div>
+      <div class="campo"><label>Estado</label><select id="mv-es"><option>Pagado</option><option>Pendiente</option><option>Vencido</option></select></div>
+    </div>
+    <div class="campo"><label>Glosa</label><input type="text" id="mv-gl" placeholder="Descripción..."></div>
+    <div class="mpie"><button class="btn bgr" onclick="cerrarM('modal-mov')">Cancelar</button><button class="btn baz" onclick="gMov()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="ov" id="modal-sanc" onclick="if(event.target===this)cerrarM(this.id)">
+  <div class="mc">
+    <div class="mtit2">⚖️ Nueva Sanción</div>
+    <div class="g2">
+      <div class="campo"><label>N° Acta</label><input type="text" id="sa-ac" placeholder="001"></div>
+      <div class="campo"><label>Fecha *</label><input type="date" id="sa-fe"></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Jugador *</label><input type="text" id="sa-ju" placeholder="Nombre completo"></div>
+      <div class="campo"><label>Club</label><select id="sa-cl"></select></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Serie</label><select id="sa-se"><option>3° Adulto</option><option>2° Adulto</option><option>1° Adulto</option><option>Seniors</option><option>Super Senior</option><option>Dorados</option><option>3° Infantil</option><option>2° Infantil</option><option>1° Infantil</option><option>Juvenil</option>
+<option disabled>──────────────</option>
+<option value="TABLA_ADULTOS">🏆 Tabla General Adultos</option>
+</select></div>
+      <div class="campo"><label>Tipo Sanción</label><select id="sa-ti"><option>Tarjeta Amarilla</option><option>Tarjeta Roja Directa</option><option>Doble Amarilla</option><option>Suspensión Disciplinaria</option><option>Multa Económica</option></select></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Fechas suspendido</label><input type="number" id="sa-fc" value="1" min="0"></div>
+      <div class="campo"><label>Multa $ (si aplica)</label><input type="number" id="sa-mu" value="0" min="0"></div>
+    </div>
+    <div class="campo"><label>Partido</label><input type="text" id="sa-pa" placeholder="Local vs Visitante"></div>
+    <div class="campo"><label>Descripción</label><textarea id="sa-de" placeholder="Descripción de la falta..."></textarea></div>
+    <div class="mpie"><button class="btn bgr" onclick="cerrarM('modal-sanc')">Cancelar</button><button class="btn baz" onclick="gSanc()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="ov" id="modal-circ" onclick="if(event.target===this)cerrarM(this.id)">
+  <div class="mc">
+    <div class="mtit2">📋 Nueva Circular</div>
+    <div class="g2">
+      <div class="campo"><label>Tipo</label><select id="ci-ti"><option>Circular</option><option>Comunicado</option><option>Resolución</option><option>Convocatoria</option></select></div>
+      <div class="campo"><label>N°</label><input type="number" id="ci-nu" placeholder="001"></div>
+    </div>
+    <div class="campo"><label>Asunto *</label><input type="text" id="ci-as"></div>
+    <div class="g2">
+      <div class="campo"><label>Dirigido a</label><input type="text" id="ci-di" placeholder="Todos los clubes..."></div>
+      <div class="campo"><label>Fecha *</label><input type="date" id="ci-fe"></div>
+    </div>
+    <div class="campo"><label>Firmado por</label><input type="text" id="ci-fi" placeholder="Nombre y cargo..."></div>
+    <div class="campo"><label>Contenido</label><textarea id="ci-co" placeholder="Texto..."></textarea></div>
+    <div class="mpie"><button class="btn bgr" onclick="cerrarM('modal-circ')">Cancelar</button><button class="btn baz" onclick="gCirc()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="ov" id="modal-reun" onclick="if(event.target===this)cerrarM(this.id)">
+  <div class="mc">
+    <div class="mtit2">🗓️ Registrar Reunión</div>
+    <div class="g2">
+      <div class="campo"><label>Fecha *</label><input type="date" id="re-fe"></div>
+      <div class="campo"><label>Tipo</label><select id="re-ti"><option>Directiva</option><option>Delegados</option><option>Extraordinaria</option><option>Comité Disciplina</option></select></div>
+    </div>
+    <div class="campo"><label>Temas tratados</label><textarea id="re-te" placeholder="1. Tema..."></textarea></div>
+    <div class="campo"><label>Acuerdos</label><textarea id="re-ac" placeholder="Acuerdos tomados..."></textarea></div>
+    <div class="mpie"><button class="btn bgr" onclick="cerrarM('modal-reun')">Cancelar</button><button class="btn baz" onclick="gReun()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="ov" id="modal-tram" onclick="if(event.target===this)cerrarM(this.id)">
+  <div class="mc">
+    <div class="mtit2">📂 Nuevo Trámite</div>
+    <div class="g2">
+      <div class="campo"><label>Tipo</label><select id="tr-ti"><option>Pase</option><option>Inscripción Club</option><option>Inscripción Jugador</option><option>Documentación</option><option>Solicitud</option><option>Reclamo</option><option>Apelación</option></select></div>
+      <div class="campo"><label>Fecha *</label><input type="date" id="tr-fe"></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Club</label><select id="tr-cl"></select></div>
+      <div class="campo"><label>Estado</label><select id="tr-es"><option>Pendiente</option><option>Aprobado</option><option>Rechazado</option><option>En revisión</option></select></div>
+    </div>
+    <div class="campo"><label>Detalle *</label><textarea id="tr-de" placeholder="Descripción..."></textarea></div>
+    <div class="mpie"><button class="btn bgr" onclick="cerrarM('modal-tram')">Cancelar</button><button class="btn baz" onclick="gTram()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="ov" id="modal-part" onclick="if(event.target===this)cerrarM(this.id)">
+  <div class="mc">
+    <div class="mtit2">📅 Registrar Partido</div>
+    <div class="campo"><label>Serie *</label><select id="pa-se"><option>3° Adulto</option><option>2° Adulto</option><option>1° Adulto</option><option>Seniors</option><option>Super Senior</option><option>Dorados</option><option>3° Infantil</option><option>2° Infantil</option><option>1° Infantil</option><option>Juvenil</option>
+<option disabled>──────────────</option>
+<option value="TABLA_ADULTOS">🏆 Tabla General Adultos</option>
+</select></div>
+    <div class="g2">
+      <div class="campo"><label>Local *</label><select id="pa-lo"></select></div>
+      <div class="campo"><label>Visitante *</label><select id="pa-vi"></select></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Goles Local</label><input type="number" id="pa-gl" value="0" min="0"></div>
+      <div class="campo"><label>Goles Visitante</label><input type="number" id="pa-gv" value="0" min="0"></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Fecha *</label><input type="date" id="pa-fe"></div>
+      <div class="campo"><label>Hora</label><input type="time" id="pa-ho" value="10:00"></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Cancha</label><input type="text" id="pa-ca"></div>
+      <div class="campo"><label>Árbitro</label><input type="text" id="pa-ar"></div>
+    </div>
+    <div class="campo"><label>Estado</label><select id="pa-es"><option>Programado</option><option>Jugado</option><option>Suspendido</option><option>Postergado</option></select></div>
+    <div class="mpie"><button class="btn bgr" onclick="cerrarM('modal-part')">Cancelar</button><button class="btn baz" onclick="gPart()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="ov" id="modal-arb" onclick="if(event.target===this)cerrarM(this.id)">
+  <div class="mc">
+    <div class="mtit2">🎯 Registrar Árbitro</div>
+    <div class="g2">
+      <div class="campo"><label>Nombre *</label><input type="text" id="arb-n" placeholder="Nombre completo"></div>
+      <div class="campo"><label>RUT</label><input type="text" id="arb-r" placeholder="12.345.678-9"></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Teléfono</label><input type="text" id="arb-t"></div>
+      <div class="campo"><label>Nivel</label><select id="arb-nv"><option>1° Categoría</option><option>2° Categoría</option><option>3° Categoría</option><option>En formación</option></select></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Tarifa por partido $</label><input type="number" id="arb-ta" value="15000" min="0"></div>
+      <div class="campo"><label>Estado</label><select id="arb-es"><option>Activo</option><option>Inactivo</option></select></div>
+    </div>
+    <div class="mpie"><button class="btn bgr" onclick="cerrarM('modal-arb')">Cancelar</button><button class="btn baz" onclick="gArb()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="ov" id="modal-jug" onclick="if(event.target===this)cerrarM(this.id)">
+  <div class="mc">
+    <div class="mtit2">👟 Registrar Jugador</div>
+    <div class="g2">
+      <div class="campo"><label>Nombre *</label><input type="text" id="jug-n" placeholder="Nombre completo"></div>
+      <div class="campo"><label>RUT</label><input type="text" id="jug-r" placeholder="12.345.678-9"></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Club *</label><select id="jug-cm"></select></div>
+      <div class="campo"><label>Serie</label><select id="jug-sm"><option>3° Adulto</option><option>2° Adulto</option><option>1° Adulto</option><option>Seniors</option><option>Super Senior</option><option>Dorados</option><option>3° Infantil</option><option>2° Infantil</option><option>1° Infantil</option><option>Juvenil</option>
+<option disabled>──────────────</option>
+<option value="TABLA_ADULTOS">🏆 Tabla General Adultos</option>
+</select></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Posición</label><select id="jug-po"><option>Portero</option><option>Defensa</option><option>Volante</option><option>Delantero</option></select></div>
+      <div class="campo"><label>N° Camiseta</label><input type="number" id="jug-nu" min="1" max="99"></div>
+    </div>
+    <div class="campo"><label>Estado</label><select id="jug-es"><option>Activo</option><option>Inactivo</option><option>Sancionado</option></select></div>
+    <div class="mpie"><button class="btn bgr" onclick="cerrarM('modal-jug')">Cancelar</button><button class="btn baz" onclick="gJug()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="ov" id="modal-acta" onclick="if(event.target===this)cerrarM(this.id)">
+  <div class="mc">
+    <div class="mtit2">📄 Nueva Acta de Partido</div>
+    <div class="g2">
+      <div class="campo"><label>N° Acta</label><input type="text" id="act-n" placeholder="001"></div>
+      <div class="campo"><label>Fecha *</label><input type="date" id="act-fe"></div>
+    </div>
+    <div class="campo"><label>Serie</label><select id="act-se"><option>3° Adulto</option><option>2° Adulto</option><option>1° Adulto</option><option>Seniors</option><option>Super Senior</option><option>Dorados</option><option>3° Infantil</option><option>2° Infantil</option><option>1° Infantil</option><option>Juvenil</option>
+<option disabled>──────────────</option>
+<option value="TABLA_ADULTOS">🏆 Tabla General Adultos</option>
+</select></div>
+    <div class="g2">
+      <div class="campo"><label>Local</label><select id="act-lo"></select></div>
+      <div class="campo"><label>Visitante</label><select id="act-vi"></select></div>
+    </div>
+    <div class="g2">
+      <div class="campo"><label>Resultado (ej: 2-1)</label><input type="text" id="act-re"></div>
+      <div class="campo"><label>Árbitro</label><input type="text" id="act-ar"></div>
+    </div>
+    <div class="campo"><label>Incidencias</label><textarea id="act-in" placeholder="Tarjetas, lesiones..."></textarea></div>
+    <div class="campo"><label>Suspensiones generadas</label><textarea id="act-su" placeholder="Jugador X suspendido N fechas..."></textarea></div>
+    <div class="mpie"><button class="btn bgr" onclick="cerrarM('modal-acta')">Cancelar</button><button class="btn baz" onclick="gActa()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+// ── FIREBASE CONFIG ───────────────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyDdwAfw7WADnZ1-2e18w3RTnLZtIhIJkac",
+  authDomain: "campeonato-futbol-de-renca.firebaseapp.com",
+  projectId: "campeonato-futbol-de-renca",
+  storageBucket: "campeonato-futbol-de-renca.firebasestorage.app",
+  messagingSenderId: "478555912427",
+  appId: "1:478555912427:web:aa4a0b6ebffcf464e926ae",
+  measurementId: "G-ETTM2QSK4H"
+};
+firebase.initializeApp(firebaseConfig);
+const fbdb = firebase.firestore();
+const FB_DOC = 'ahrenca/db2026';
+let _fbGuardando = false;
+let _fbTimer = null;
+
+// Guardar en Firebase (con debounce de 1.5 segundos)
+function guardarFirebase(){
+  if(_fbTimer) clearTimeout(_fbTimer);
+  _fbTimer = setTimeout(()=>{
+    if(_fbGuardando) return;
+    _fbGuardando = true;
+    fbdb.doc(FB_DOC).set({DB: JSON.stringify(DB), UID, ts: Date.now()})
+      .then(()=>{ _fbGuardando=false; console.log('☁️ Guardado en Firebase'); })
+      .catch(e=>{ _fbGuardando=false; console.warn('⚠️ Error Firebase:',e); });
+  }, 1500);
+}
+
+// Cargar desde Firebase
+function cargarFirebase(callback){
+  const banner = document.getElementById('fb-banner');
+  if(banner) banner.style.display='flex';
+  fbdb.doc(FB_DOC).get()
+    .then(doc=>{
+      if(doc.exists){
+        const saved = doc.data();
+        if(saved.DB){
+          const parsed = JSON.parse(saved.DB);
+          Object.assign(DB, parsed);
+          if(saved.UID) UID = saved.UID;
+          console.log('☁️ Datos cargados desde Firebase');
+        }
+      }
+      if(banner) banner.style.display='none';
+      if(callback) callback(true);
+    })
+    .catch(e=>{
+      console.warn('⚠️ Firebase no disponible, usando localStorage:',e);
+      if(banner) banner.style.display='none';
+      if(callback) callback(false);
+    });
+}
+
+// Escuchar cambios en tiempo real
+function escucharFirebase(){
+  fbdb.doc(FB_DOC).onSnapshot(doc=>{
+    if(doc.exists && !_fbGuardando){
+      const saved = doc.data();
+      if(saved.DB && saved.ts){
+        const parsed = JSON.parse(saved.DB);
+        Object.assign(DB, parsed);
+        if(saved.UID) UID = saved.UID;
+        // Actualizar vistas si hay sesión activa
+        if(ROL_ACTUAL) actualizarTodo();
+        console.log('🔄 Datos actualizados desde Firebase');
+      }
+    }
+  }, e=>console.warn('⚠️ Error listener Firebase:',e));
+}
+
+// ── DATOS ──────────────────────────────────────────────────────────────────
+const CLUBES_INIT = ['12 de Octubre','A.C. Milan','Alborada','Altamirano','Arturo Prat',
+  'Atletico Valdivia','Balmaceda','Buenos Amigos','Cruz Verde','Cultural la Paz',
+  'Defensor Illanes','Defensor Perejil','Defensor Renca','Estrella Bulnes',
+  'Estudiante de la Punta','Hirmas','Huamachuco','Huracan','Illanes Junior','Infante',
+  'Internacional','J.J. Perez','Jose Cardinj','Juventud Renca','Mackenna','Matucana',
+  "O'Higgins",'Oscar Bonilla','Poblacion Bulnes','Poblacion Lourdes','Raul Cortes',
+  'Renca Sporting','San Joaquin','Sport Boys','Tricolor','U. Catolico',
+  'Union Cultural','Villa Salvador'];
+
+const SERIES_DEF = [
+  {n:'3° Adulto',g:'adultos',b:60000},{n:'2° Adulto',g:'adultos',b:60000},{n:'1° Adulto',g:'adultos',b:60000},
+  {n:'Seniors',g:'seniors',b:22000},{n:'Super Senior',g:'seniors',b:22000},{n:'Dorados',g:'seniors',b:22000},
+  {n:'3° Infantil',g:'infantil',b:12000},{n:'2° Infantil',g:'infantil',b:12000},
+  {n:'1° Infantil',g:'infantil',b:13000},{n:'Juvenil',g:'infantil',b:14000}
+];
+
+let UID = 100;
+const NID = () => ++UID;
+
+let DB = {
+  clubes: CLUBES_INIT.map((n,i)=>({id:i+1,n,d:'',t:'',e:'',s:[],bord:0,ins:0,mul:0,pas:0})),
+  movs:[], sancs:[], circs:[], reuns:[], trams:[], parts:[], arbs:[], jugs:[], actas:[],
+  bord: Object.fromEntries(SERIES_DEF.map(s=>[s.n,s.b])),
+  claves: {}
+};
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+const G = id => document.getElementById(id);
+const V = id => G(id)?G(id).value:'';
+const fm = n => n===undefined||n===null?'$0':'$'+Number(n).toLocaleString('es-CL');
+const fd = f => f ? new Date(f+'T12:00:00').toLocaleDateString('es-CL') : '';
+const hoy = () => new Date().toISOString().slice(0,10);
+const ini = () => new Date().getFullYear()+'-01-01';
+
+function enP(fecha,dId,hId){
+  const d=V(dId),h=V(hId);
+  if(!d&&!h) return true;
+  if(d&&fecha<d) return false;
+  if(h&&fecha>h) return false;
+  return true;
+}
+
+function qper(v,dId,hId){
+  const hh=hoy(), y=new Date().getFullYear();
+  const m=String(new Date().getMonth()+1).padStart(2,'0');
+  if(v==='mes'){G(dId).value=`${y}-${m}-01`;G(hId).value=hh;}
+  else if(v==='tri'){const qm=Math.floor((new Date().getMonth())/3)*3;G(dId).value=`${y}-${String(qm+1).padStart(2,'0')}-01`;G(hId).value=hh;}
+  else if(v==='anio'){G(dId).value=`${y}-01-01`;G(hId).value=hh;}
+  else if(v==='todo'){G(dId).value='';G(hId).value='';}
+}
+
+function filtTab(tbId,q,col){
+  document.querySelectorAll('#'+tbId+' tr').forEach(r=>{
+    const c=r.cells[col];
+    r.style.display=(!q||!c||c.textContent.toLowerCase().includes(q.toLowerCase()))?'':'none';
+  });
+}
+
+function notif(msg){
+  const n=G('notif');n.textContent=msg;n.style.display='block';
+  setTimeout(()=>n.style.display='none',2800);
+}
+
+function badge(txt,cls){return `<span class="b ${cls}">${txt}</span>`;}
+
+// ── NAV ───────────────────────────────────────────────────────────────────
+function ir(nombre,btn){
+  document.querySelectorAll('.pag').forEach(p=>p.classList.remove('activo'));
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('activo'));
+  G('pag-'+nombre).classList.add('activo');
+  btn.classList.add('activo');
+  const renders={
+    tesoreria:pintMovs,disciplina:pintSancs,presidencia:pintCircs,
+    secretaria:pintTrams,fixture:pintFix,posiciones:pintPos,
+    clubes:pintClubes,series:pintSeries,arbitros:pintArbs,
+    jugadores:pintJugs,actas:pintActas,admin:pintAdmin,resumen:pintRes
+  };
+  if(renders[nombre]) renders[nombre]();
+}
+
+// ── MODALES ───────────────────────────────────────────────────────────────
+function abrirM(id){
+  // Actualizar selects de clubes
+  const opts = '<option value="">— Seleccionar —</option>'+DB.clubes.map(c=>`<option>${c.n}</option>`).join('');
+  const optsG = '<option value="General / Asociación">General / Asociación</option>'+DB.clubes.map(c=>`<option>${c.n}</option>`).join('');
+  ['sa-cl','tr-cl','pa-lo','pa-vi','act-lo','act-vi'].forEach(x=>{if(G(x))G(x).innerHTML=opts;});
+  if(G('mv-cl')) G('mv-cl').innerHTML=optsG;
+  if(G('jug-cm')) G('jug-cm').innerHTML=opts;
+  // Fecha por defecto
+  ['mv-fe','sa-fe','ci-fe','re-fe','tr-fe','pa-fe','act-fe'].forEach(x=>{if(G(x)&&!G(x).value)G(x).value=hoy();});
+  G(id).classList.add('show');
+}
+
+function cerrarM(id){G(id).classList.remove('show');}
+
+// ── GUARDAR ───────────────────────────────────────────────────────────────
+function gClub(){
+  const n=V('mc-n').trim();
+  if(!n){alert('Ingresa el nombre del club.');return;}
+  const s=Array.from(document.querySelectorAll('#modal-club input[type=checkbox]:checked')).map(c=>c.value);
+  const eid=V('mc-id');
+  if(eid){
+    const c=DB.clubes.find(x=>x.id==eid);
+    if(c){c.n=n;c.d=V('mc-d');c.t=V('mc-t');c.s=s;}
+  }else{
+    DB.clubes.push({id:NID(),n,d:V('mc-d'),t:V('mc-t'),e:'',s,bord:0,ins:0,mul:0,pas:0});
+  }
+  cerrarM('modal-club');pintClubes();pintAdmin();notif('✅ Club guardado');
+}
+
+function gMov(){
+  const mo=parseFloat(V('mv-mo')||0);
+  if(!V('mv-fe')){alert('Selecciona fecha.');return;}
+  if(!mo){alert('Ingresa el monto.');return;}
+  const editId=G('modal-mov').dataset.editId;
+  if(editId){
+    const m=DB.movs.find(x=>x.id==editId);
+    if(m){m.tipo=V('mv-tp');m.fecha=V('mv-fe');m.club=V('mv-cl');m.cat=V('mv-ca');m.monto=mo;m.estado=V('mv-es');m.glosa=V('mv-gl');}
+    delete G('modal-mov').dataset.editId;
+    G('modal-mov').querySelector('.mtit2').textContent='💰 Nuevo Movimiento';
+  }else{
+    DB.movs.push({id:NID(),tipo:V('mv-tp'),fecha:V('mv-fe'),club:V('mv-cl'),cat:V('mv-ca'),monto:mo,estado:V('mv-es'),glosa:V('mv-gl')});
+  }
+  cerrarM('modal-mov');pintMovs();pintClubes();pintAdmin();pintRes();guardarDB();notif('✅ Movimiento guardado');
+}
+
+function gSanc(){
+  if(!V('sa-ju').trim()){alert('Ingresa el nombre del jugador.');return;}
+  if(!V('sa-fe')){alert('Selecciona fecha.');return;}
+  const editId=G('modal-sanc').dataset.editId;
+  if(editId){
+    const s=DB.sancs.find(x=>x.id==editId);
+    if(s){s.acta=V('sa-ac');s.fecha=V('sa-fe');s.jugador=V('sa-ju');s.club=V('sa-cl');s.serie=V('sa-se');s.tipo=V('sa-ti');s.fechas=parseInt(V('sa-fc')||0);s.multa=parseFloat(V('sa-mu')||0);s.partido=V('sa-pa');s.desc=V('sa-de');}
+    delete G('modal-sanc').dataset.editId;
+    G('modal-sanc').querySelector('.mtit2').textContent='⚖️ Nueva Sanción';
+  }else{
+    DB.sancs.push({id:NID(),acta:V('sa-ac'),fecha:V('sa-fe'),jugador:V('sa-ju'),club:V('sa-cl'),serie:V('sa-se'),tipo:V('sa-ti'),fechas:parseInt(V('sa-fc')||0),multa:parseFloat(V('sa-mu')||0),partido:V('sa-pa'),desc:V('sa-de'),estado:'Activa'});
+  }
+  cerrarM('modal-sanc');pintSancs();pintAdmin();pintRes();guardarDB();notif('✅ Sanción guardada');
+}
+
+function gCirc(){
+  if(!V('ci-as').trim()){alert('Ingresa el asunto.');return;}
+  if(!V('ci-fe')){alert('Selecciona fecha.');return;}
+  const editId=G('modal-circ').dataset.editId;
+  if(editId){
+    const c=DB.circs.find(x=>x.id==editId);
+    if(c){c.tipo=V('ci-ti');c.num=V('ci-nu');c.asunto=V('ci-as');c.dir=V('ci-di');c.fecha=V('ci-fe');c.firma=V('ci-fi');c.cont=V('ci-co');}
+    delete G('modal-circ').dataset.editId;
+    G('modal-circ').querySelector('.mtit2').textContent='📋 Nueva Circular';
+  }else{
+    DB.circs.push({id:NID(),tipo:V('ci-ti'),num:V('ci-nu'),asunto:V('ci-as'),dir:V('ci-di'),fecha:V('ci-fe'),firma:V('ci-fi'),cont:V('ci-co')});
+  }
+  cerrarM('modal-circ');pintCircs();guardarDB();notif('✅ Circular guardada');
+}
+
+function gReun(){
+  if(!V('re-fe')){alert('Selecciona fecha.');return;}
+  const editId=G('modal-reun').dataset.editId;
+  if(editId){
+    const r=DB.reuns.find(x=>x.id==editId);
+    if(r){r.fecha=V('re-fe');r.tipo=V('re-ti');r.temas=V('re-te');r.acuerdos=V('re-ac');}
+    delete G('modal-reun').dataset.editId;
+    G('modal-reun').querySelector('.mtit2').textContent='🗓️ Registrar Reunión';
+  }else{
+    DB.reuns.push({id:NID(),fecha:V('re-fe'),tipo:V('re-ti'),temas:V('re-te'),acuerdos:V('re-ac')});
+  }
+  cerrarM('modal-reun');pintCircs();guardarDB();notif('✅ Reunión guardada');
+}
+
+function gTram(){
+  if(!V('tr-de').trim()){alert('Ingresa el detalle.');return;}
+  if(!V('tr-fe')){alert('Selecciona fecha.');return;}
+  const editId=G('modal-tram').dataset.editId;
+  if(editId){
+    const t=DB.trams.find(x=>x.id==editId);
+    if(t){t.tipo=V('tr-ti');t.fecha=V('tr-fe');t.club=V('tr-cl');t.estado=V('tr-es');t.detalle=V('tr-de');}
+    delete G('modal-tram').dataset.editId;
+    G('modal-tram').querySelector('.mtit2').textContent='📂 Nuevo Trámite';
+  }else{
+    DB.trams.push({id:NID(),tipo:V('tr-ti'),fecha:V('tr-fe'),club:V('tr-cl'),estado:V('tr-es'),detalle:V('tr-de')});
+  }
+  cerrarM('modal-tram');pintTrams();guardarDB();notif('✅ Trámite guardado');
+}
+
+function gPart(){
+  if(!V('pa-fe')){alert('Selecciona fecha.');return;}
+  if(!V('pa-lo')||!V('pa-vi')){alert('Selecciona local y visitante.');return;}
+  const editId=G('modal-part').dataset.editId;
+  if(editId){
+    const p=DB.parts.find(x=>x.id==editId);
+    if(p){p.serie=V('pa-se');p.local=V('pa-lo');p.visita=V('pa-vi');p.gl=parseInt(V('pa-gl')||0);p.gv=parseInt(V('pa-gv')||0);p.fecha=V('pa-fe');p.hora=V('pa-ho');p.cancha=V('pa-ca');p.arb=V('pa-ar');p.estado=V('pa-es');}
+    delete G('modal-part').dataset.editId;
+    G('modal-part').querySelector('.mtit2').textContent='📅 Registrar Partido';
+  }else{
+    DB.parts.push({id:NID(),serie:V('pa-se'),local:V('pa-lo'),visita:V('pa-vi'),gl:parseInt(V('pa-gl')||0),gv:parseInt(V('pa-gv')||0),fecha:V('pa-fe'),hora:V('pa-ho'),cancha:V('pa-ca'),arb:V('pa-ar'),estado:V('pa-es')});
+  }
+  cerrarM('modal-part');pintFix();pintPos();pintRes();guardarDB();notif('✅ Partido guardado');
+}
+
+function editArb(id){
+  const a=DB.arbs.find(x=>x.id==id);if(!a)return;
+  G('arb-n').value=a.nombre;G('arb-r').value=a.rut||'';G('arb-t').value=a.tel||'';
+  G('arb-nv').value=a.nivel;G('arb-ta').value=a.tarifa;G('arb-es').value=a.estado;
+  G('modal-arb').querySelector('.mtit2').textContent='✏️ Editar Árbitro';
+  G('modal-arb').dataset.editId=id;G('modal-arb').classList.add('show');
+}
+
+function gArb(){
+  if(!V('arb-n').trim()){alert('Ingresa el nombre.');return;}
+  const editId=G('modal-arb').dataset.editId;
+  if(editId){
+    const a=DB.arbs.find(x=>x.id==editId);
+    if(a){a.nombre=V('arb-n');a.rut=V('arb-r');a.tel=V('arb-t');a.nivel=V('arb-nv');a.tarifa=parseFloat(V('arb-ta')||0);a.estado=V('arb-es');}
+    delete G('modal-arb').dataset.editId;
+    G('modal-arb').querySelector('.mtit2').textContent='🎯 Registrar Árbitro';
+  }else{
+    DB.arbs.push({id:NID(),nombre:V('arb-n'),rut:V('arb-r'),tel:V('arb-t'),nivel:V('arb-nv'),tarifa:parseFloat(V('arb-ta')||0),estado:V('arb-es')});
+  }
+  cerrarM('modal-arb');pintArbs();guardarDB();notif('✅ Árbitro guardado');
+}
+
+function editJug(id){
+  const j=DB.jugs.find(x=>x.id==id);if(!j)return;
+  const opts='<option value="">— Seleccionar —</option>'+DB.clubes.map(c=>`<option>${c.n}</option>`).join('');
+  G('jug-cm').innerHTML=opts;
+  G('jug-n').value=j.nombre;G('jug-r').value=j.rut||'';G('jug-cm').value=j.club;
+  G('jug-sm').value=j.serie;G('jug-po').value=j.posicion;G('jug-nu').value=j.numero||'';G('jug-es').value=j.estado;
+  G('modal-jug').querySelector('.mtit2').textContent='✏️ Editar Jugador';
+  G('modal-jug').dataset.editId=id;G('modal-jug').classList.add('show');
+}
+
+function gJug(){
+  if(!V('jug-n').trim()){alert('Ingresa el nombre.');return;}
+  const editId=G('modal-jug').dataset.editId;
+  if(editId){
+    const j=DB.jugs.find(x=>x.id==editId);
+    if(j){j.nombre=V('jug-n');j.rut=V('jug-r');j.club=V('jug-cm');j.serie=V('jug-sm');j.posicion=V('jug-po');j.numero=V('jug-nu');j.estado=V('jug-es');}
+    delete G('modal-jug').dataset.editId;
+    G('modal-jug').querySelector('.mtit2').textContent='👟 Registrar Jugador';
+  }else{
+    DB.jugs.push({id:NID(),nombre:V('jug-n'),rut:V('jug-r'),club:V('jug-cm'),serie:V('jug-sm'),posicion:V('jug-po'),numero:V('jug-nu'),estado:V('jug-es')});
+  }
+  cerrarM('modal-jug');pintJugs();guardarDB();notif('✅ Jugador guardado');
+}
+
+function editActa(id){
+  const a=DB.actas.find(x=>x.id==id);if(!a)return;
+  const opts='<option value="">— Seleccionar —</option>'+DB.clubes.map(c=>`<option>${c.n}</option>`).join('');
+  G('act-lo').innerHTML=opts;G('act-vi').innerHTML=opts;
+  G('act-n').value=a.nacta||'';G('act-fe').value=a.fecha;G('act-se').value=a.serie;
+  G('act-lo').value=a.local||'';G('act-vi').value=a.visita||'';
+  G('act-re').value=a.resultado||'';G('act-ar').value=a.arb||'';
+  G('act-in').value=a.incidencias||'';G('act-su').value=a.suspensiones||'';
+  G('modal-acta').querySelector('.mtit2').textContent='✏️ Editar Acta';
+  G('modal-acta').dataset.editId=id;G('modal-acta').classList.add('show');
+}
+
+function gActa(){
+  if(!V('act-fe')){alert('Selecciona fecha.');return;}
+  const editId=G('modal-acta').dataset.editId;
+  if(editId){
+    const a=DB.actas.find(x=>x.id==editId);
+    if(a){a.nacta=V('act-n');a.fecha=V('act-fe');a.serie=V('act-se');a.local=V('act-lo');a.visita=V('act-vi');a.resultado=V('act-re');a.arb=V('act-ar');a.incidencias=V('act-in');a.suspensiones=V('act-su');}
+    delete G('modal-acta').dataset.editId;
+    G('modal-acta').querySelector('.mtit2').textContent='📄 Nueva Acta de Partido';
+  }else{
+    DB.actas.push({id:NID(),nacta:V('act-n'),fecha:V('act-fe'),serie:V('act-se'),local:V('act-lo'),visita:V('act-vi'),resultado:V('act-re'),arb:V('act-ar'),incidencias:V('act-in'),suspensiones:V('act-su')});
+  }
+  cerrarM('modal-acta');pintActas();guardarDB();notif('✅ Acta guardada');
+}
+
+// ── ELIMINAR ──────────────────────────────────────────────────────────────
+function delReg(arr,id,pintFn){
+  const i=DB[arr].findIndex(x=>x.id==id);
+  if(i>-1&&confirm('¿Eliminar este registro?')){DB[arr].splice(i,1);pintFn();pintAdmin();}
+}
+function editClub(id){
+  const c=DB.clubes.find(x=>x.id==id);if(!c)return;
+  G('mc-id').value=c.id;G('mc-tit').textContent='Editar Club';
+  G('mc-n').value=c.n;G('mc-d').value=c.d||'';G('mc-t').value=c.t||'';
+  G('mc-ca').value=c.catAdulto||'';
+  document.querySelectorAll('#modal-club input[type=checkbox]').forEach(cb=>cb.checked=c.s&&c.s.includes(cb.value));
+  abrirM('modal-club');
+}
+
+// ── RENDER RESUMEN ────────────────────────────────────────────────────────
+function pintRes(){
+  const movs=DB.movs.filter(m=>enP(m.fecha,'g-d','g-h'));
+  const ing     = movs.filter(m=>m.tipo==='Ingreso'&&m.estado==='Pagado').reduce((s,m)=>s+m.monto,0);
+  const gas     = movs.filter(m=>m.tipo==='Gasto'  &&m.estado==='Pagado').reduce((s,m)=>s+m.monto,0);
+  const deuda   = movs.filter(m=>m.tipo==='Ingreso'&&m.estado==='Pendiente').reduce((s,m)=>s+m.monto,0);
+  const vencido = movs.filter(m=>m.tipo==='Ingreso'&&m.estado==='Vencido').reduce((s,m)=>s+m.monto,0);
+  const nPen    = movs.filter(m=>m.estado==='Pendiente').length;
+  const nVen    = movs.filter(m=>m.estado==='Vencido').length;
+  const parts   = DB.parts.filter(p=>enP(p.fecha,'g-d','g-h'));
+  // Cards
+  G('r-cl').textContent=DB.clubes.length;
+  G('r-pa').textContent=parts.filter(p=>p.estado==='Jugado').length;
+  G('r-in').textContent=fm(ing);
+  G('r-ga').textContent=fm(gas);
+  G('r-sa').textContent=fm(ing-gas);
+  G('r-deu').textContent=fm(deuda);
+  G('r-ven').textContent=fm(vencido);
+  G('r-pen').textContent=nPen;
+  G('r-vec').textContent=nVen;
+  G('r-sn').textContent=DB.sancs.filter(s=>s.estado==='Activa'&&enP(s.fecha,'g-d','g-h')).length;
+  // Últimos partidos
+  const ult=parts.filter(p=>p.estado==='Jugado').sort((a,b)=>b.fecha.localeCompare(a.fecha)).slice(0,4);
+  G('r-ult').innerHTML=ult.length?ult.map(p=>`<div style="padding:5px 0;border-bottom:1px dashed #e2e8f0;font-size:.81rem"><b>${p.local} ${p.gl}-${p.gv} ${p.visita}</b> <span style="color:#a0aec0;font-size:.7rem">${p.serie} · ${fd(p.fecha)}</span></div>`).join(''):'<p style="color:#a0aec0;font-size:.82rem">Sin partidos en el período.</p>';
+  // Proyección real con deuda
+  const deudaDiv=document.getElementById('r-deuda-info');
+  const vencDiv=document.getElementById('r-venc-info');
+  const ibox=document.querySelector('#pag-resumen .ibox');
+  if(ibox){
+    if(deudaDiv)deudaDiv.remove();
+    if(vencDiv)vencDiv.remove();
+    if(deuda>0){const d=document.createElement('div');d.id='r-deuda-info';d.className='ifila';d.innerHTML='<span>⏳ Por cobrar</span><span class="iv" style="color:#d97706">'+fm(deuda)+'</span>';ibox.appendChild(d);}
+    if(vencido>0){const v=document.createElement('div');v.id='r-venc-info';v.className='ifila';v.innerHTML='<span>⚠️ Vencido</span><span class="iv rj">'+fm(vencido)+'</span>';ibox.appendChild(v);}
+  }
+}
+
+// ── RENDER TESORERÍA ──────────────────────────────────────────────────────
+function pintMovs(){
+  const data=DB.movs.filter(m=>enP(m.fecha,'g-d','g-h')).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  // IGUAL QUE RESUMEN: solo cuenta Pagados en Ingresos/Gastos/Saldo
+  const ing  = data.filter(m=>m.tipo==='Ingreso'&&m.estado==='Pagado').reduce((s,m)=>s+m.monto,0);
+  const gas  = data.filter(m=>m.tipo==='Gasto'  &&m.estado==='Pagado').reduce((s,m)=>s+m.monto,0);
+  const deu  = data.filter(m=>m.tipo==='Ingreso'&&m.estado==='Pendiente').reduce((s,m)=>s+m.monto,0);
+  const ven  = data.filter(m=>m.tipo==='Ingreso'&&m.estado==='Vencido').reduce((s,m)=>s+m.monto,0);
+  G('t-in').textContent=fm(ing);
+  G('t-ga').textContent=fm(gas);
+  G('t-sa').textContent=fm(ing-gas);
+  G('t-pe').textContent=data.filter(m=>m.estado==='Pendiente').length;
+  G('t-ve').textContent=data.filter(m=>m.estado==='Vencido').length;
+  // Mostrar deuda en cards si existe
+  const cdeu=document.getElementById('card-deu');
+  const cven=document.getElementById('card-ven2');
+  if(cdeu){cdeu.textContent=deu>0?fm(deu):'$0';}
+  if(cven){cven.textContent=ven>0?fm(ven):'$0';}
+  const bs={Pagado:'bve2',Pendiente:'bam2',Vencido:'brj2'};
+  G('tb-movs').innerHTML=data.length?data.map(m=>`<tr>
+    <td>${fd(m.fecha)}</td>
+    <td>${badge(m.tipo,m.tipo==='Ingreso'?'bve2':'brj2')}</td>
+    <td><b>${m.club||'—'}</b></td><td>${m.cat}</td>
+    <td style="color:#15803d;font-weight:600">${m.tipo==='Ingreso'?fm(m.monto):'—'}</td>
+    <td style="color:#b91c1c;font-weight:600">${m.tipo==='Gasto'?fm(m.monto):'—'}</td>
+    <td>
+      ${badge(m.estado,bs[m.estado]||'bgr2')}
+      ${m.estado!=='Pagado'?`<button class="btn bve2 sm" style="margin-left:4px;background:#dcfce7;border:1px solid #86efac;color:#15803d" onclick="marcarPagado(${m.id})">✔ Pagado</button>`:''}
+    </td>
+    <td style="color:#718096">${m.glosa||'—'}</td>
+    <td style="display:flex;gap:4px;flex-wrap:nowrap">
+      <button class="btn baz sm" onclick="editMov(${m.id})">✏️</button>
+      <button class="btn brj sm" onclick="delReg('movs',${m.id},pintMovs)">🗑️</button>
+    </td>
+  </tr>`).join(''):`<tr><td colspan="9"><div class="empty"><span>💰</span><p>Sin movimientos. Usa "➕ Nuevo Movimiento".</p></div></td></tr>`;
+}
+
+function marcarPagado(id){
+  const m=DB.movs.find(x=>x.id==id);
+  if(m){
+    m.estado='Pagado';
+    guardarDB();
+    pintMovs();
+    pintClubes(); // actualizar estado en clubes
+    pintRes();    // actualizar resumen
+    notif('✅ Marcado como Pagado — Clubes y Resumen actualizados');
+  }
+}
+
+function editMov(id){
+  const m=DB.movs.find(x=>x.id==id);if(!m)return;
+  G('mv-tp').value=m.tipo;G('mv-fe').value=m.fecha;
+  const optsG='<option value="General / Asociación">General / Asociación</option>'+DB.clubes.map(c=>`<option>${c.n}</option>`).join('');
+  G('mv-cl').innerHTML=optsG;G('mv-cl').value=m.club;
+  G('mv-ca').value=m.cat;G('mv-mo').value=m.monto;
+  G('mv-es').value=m.estado;G('mv-gl').value=m.glosa||'';
+  G('modal-mov').querySelector('.mtit2').textContent='✏️ Editar Movimiento';
+  G('modal-mov').dataset.editId=id;
+  G('modal-mov').classList.add('show');
+}
+
+// ── RENDER DISCIPLINA ─────────────────────────────────────────────────────
+function pintSancs(){
+  const data=DB.sancs.filter(s=>enP(s.fecha,'g-d','g-h')).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  G('d-ac').textContent=data.filter(s=>s.estado==='Activa').length;
+  G('d-am').textContent=data.filter(s=>s.tipo.includes('Amarilla')).length;
+  G('d-ro').textContent=data.filter(s=>s.tipo.includes('Roja')).length;
+  G('d-cu').textContent=data.filter(s=>s.estado==='Cumplida').length;
+  G('d-mu').textContent=fm(data.reduce((s,x)=>s+x.multa,0));
+  const bs={Activa:'brj2',Cumplida:'bve2',Apelada:'bam2'};
+  G('tb-sancs').innerHTML=data.length?data.map(s=>`<tr>
+    <td>${s.acta||'—'}</td><td>${fd(s.fecha)}</td>
+    <td><b>${s.jugador}</b></td><td>${s.club}</td><td>${s.serie}</td>
+    <td>${badge(s.tipo,s.tipo.includes('Roja')?'brj2':'bam2')}</td>
+    <td style="text-align:center">${s.fechas}</td>
+    <td>${s.multa>0?fm(s.multa):'—'}</td>
+    <td>${badge(s.estado,bs[s.estado]||'bgr2')}</td>
+    <td style="display:flex;gap:4px">
+      <button class="btn bve sm" onclick="cumplirS(${s.id})">✔ Cumplida</button>
+      <button class="btn baz sm" onclick="editSanc(${s.id})">✏️</button>
+      <button class="btn brj sm" onclick="delReg('sancs',${s.id},pintSancs)">🗑️</button>
+    </td></tr>`).join(''):`<tr><td colspan="10"><div class="empty"><span>⚖️</span><p>Sin sanciones. Usa "➕ Nueva Sanción".</p></div></td></tr>`;
+}
+
+function editSanc(id){
+  const s=DB.sancs.find(x=>x.id==id);if(!s)return;
+  const opts='<option value="">— Seleccionar —</option>'+DB.clubes.map(c=>`<option>${c.n}</option>`).join('');
+  G('sa-cl').innerHTML=opts;
+  G('sa-ac').value=s.acta||'';G('sa-fe').value=s.fecha;G('sa-ju').value=s.jugador;
+  G('sa-cl').value=s.club;G('sa-se').value=s.serie;G('sa-ti').value=s.tipo;
+  G('sa-fc').value=s.fechas;G('sa-mu').value=s.multa;G('sa-pa').value=s.partido||'';G('sa-de').value=s.desc||'';
+  G('modal-sanc').querySelector('.mtit2').textContent='✏️ Editar Sanción';
+  G('modal-sanc').dataset.editId=id;
+  G('modal-sanc').classList.add('show');
+}
+function cumplirS(id){const s=DB.sancs.find(x=>x.id==id);if(s){s.estado='Cumplida';pintSancs();notif('✅ Sanción marcada cumplida');}}
+
+// ── RENDER PRESIDENCIA ────────────────────────────────────────────────────
+function pintCircs(){
+  const todos=[...DB.circs.filter(c=>enP(c.fecha,'g-d','g-h')),...DB.reuns.filter(r=>enP(r.fecha,'g-d','g-h'))].sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  G('p-ci').textContent=DB.circs.filter(c=>enP(c.fecha,'g-d','g-h')).length;
+  G('p-re').textContent=DB.reuns.filter(r=>enP(r.fecha,'g-d','g-h')).length;
+  G('p-ac').textContent=DB.reuns.filter(r=>r.acuerdos&&r.acuerdos.trim()).length;
+  G('tb-circs').innerHTML=todos.length?todos.map((x,i)=>{
+    const esReun=x.tipo==='Directiva'||x.tipo==='Delegados'||x.tipo==='Extraordinaria'||x.tipo==='Comité Disciplina';
+    return`<tr>
+      <td style="color:#a0aec0">${i+1}</td><td>${fd(x.fecha)}</td>
+      <td>${badge(esReun?x.tipo:'Circular','baz2')}</td>
+      <td><b>${x.asunto||x.temas||'—'}</b></td>
+      <td>${x.dir||'—'}</td><td>${x.firma||'—'}</td>
+      <td style="display:flex;gap:4px">
+      <button class="btn baz sm" onclick="editCirc(${x.id},'${esReun?'reun':'circ'}')">✏️</button>
+      <button class="btn brj sm" onclick="delReg('${esReun?'reuns':'circs'}',${x.id},pintCircs)">🗑️</button>
+    </td>
+    </tr>`;
+  }).join(''):`<tr><td colspan="7"><div class="empty"><span>👔</span><p>Sin registros. Usa los botones "➕".</p></div></td></tr>`;
+}
+
+// ── RENDER SECRETARÍA ─────────────────────────────────────────────────────
+function editCirc(id,tipo){
+  if(tipo==='circ'){
+    const c=DB.circs.find(x=>x.id==id);if(!c)return;
+    G('ci-ti').value=c.tipo;G('ci-nu').value=c.num||'';G('ci-as').value=c.asunto;
+    G('ci-di').value=c.dir||'';G('ci-fe').value=c.fecha;G('ci-fi').value=c.firma||'';G('ci-co').value=c.cont||'';
+    G('modal-circ').querySelector('.mtit2').textContent='✏️ Editar Circular';
+    G('modal-circ').dataset.editId=id;G('modal-circ').classList.add('show');
+  }else{
+    const r=DB.reuns.find(x=>x.id==id);if(!r)return;
+    G('re-fe').value=r.fecha;G('re-ti').value=r.tipo;G('re-te').value=r.temas||'';G('re-ac').value=r.acuerdos||'';
+    G('modal-reun').querySelector('.mtit2').textContent='✏️ Editar Reunión';
+    G('modal-reun').dataset.editId=id;G('modal-reun').classList.add('show');
+  }
+}
+
+function pintTrams(){
+  const data=DB.trams.filter(t=>enP(t.fecha,'g-d','g-h')).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  G('s-to').textContent=data.length;
+  G('s-pa').textContent=data.filter(t=>t.tipo==='Pase').length;
+  G('s-pe').textContent=data.filter(t=>t.estado==='Pendiente').length;
+  G('s-ap').textContent=data.filter(t=>t.estado==='Aprobado').length;
+  const bs={Aprobado:'bve2',Rechazado:'brj2',Pendiente:'bam2','En revisión':'baz2'};
+  G('tb-trams').innerHTML=data.length?data.map(t=>`<tr>
+    <td>${fd(t.fecha)}</td><td>${badge(t.tipo,'bgr2')}</td>
+    <td>${t.club||'—'}</td><td>${t.detalle}</td>
+    <td>${badge(t.estado,bs[t.estado]||'bgr2')}</td>
+    <td style="display:flex;gap:4px">
+      <button class="btn baz sm" onclick="editTram(${t.id})">✏️</button>
+      <button class="btn brj sm" onclick="delReg('trams',${t.id},pintTrams)">🗑️</button>
+    </td>
+  </tr>`).join(''):`<tr><td colspan="6"><div class="empty"><span>📋</span><p>Sin trámites. Usa "➕ Nuevo Trámite".</p></div></td></tr>`;
+}
+
+// ── RENDER FIXTURE ────────────────────────────────────────────────────────
+function editTram(id){
+  const t=DB.trams.find(x=>x.id==id);if(!t)return;
+  const opts='<option value="">— Seleccionar —</option>'+DB.clubes.map(c=>`<option>${c.n}</option>`).join('');
+  G('tr-cl').innerHTML=opts;
+  G('tr-ti').value=t.tipo;G('tr-fe').value=t.fecha;G('tr-cl').value=t.club;
+  G('tr-es').value=t.estado;G('tr-de').value=t.detalle;
+  G('modal-tram').querySelector('.mtit2').textContent='✏️ Editar Trámite';
+  G('modal-tram').dataset.editId=id;G('modal-tram').classList.add('show');
+}
+
+function pintFix(){
+  const s=V('f-s');
+  const data=DB.parts.filter(p=>enP(p.fecha,'g-d','g-h')&&(!s||p.serie===s)).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  const bs={Jugado:'bve2',Programado:'baz2',Suspendido:'brj2',Postergado:'bam2'};
+  G('fix-lista').innerHTML=data.length?data.map(p=>`
+    <div class="fix-item">
+      <div><div class="fix-eq">${p.local}</div><div class="fix-info">${p.serie}</div></div>
+      <div class="fix-c">
+        ${p.estado==='Jugado'?`<div class="fix-marc">${p.gl} - ${p.gv}</div>`:badge(p.estado,bs[p.estado]||'bgr2')}
+        <div class="fix-info">${fd(p.fecha)} ${p.hora||''}</div>
+        <button class="btn baz sm" style="margin-top:4px" onclick="editPart(${p.id})">✏️</button>
+        <button class="btn brj sm" style="margin-top:2px" onclick="delReg('parts',${p.id},pintFix)">🗑️</button>
+      </div>
+      <div style="text-align:right"><div class="fix-eq">${p.visita}</div><div class="fix-info">${p.cancha||''}</div></div>
+    </div>`).join(''):`<div class="empty"><span>📅</span><p>Sin partidos. Usa "➕ Nuevo Partido".</p></div>`;
+}
+
+// ── RENDER POSICIONES ─────────────────────────────────────────────────────
+function editPart(id){
+  const p=DB.parts.find(x=>x.id==id);if(!p)return;
+  const opts='<option value="">— Seleccionar —</option>'+DB.clubes.map(c=>`<option>${c.n}</option>`).join('');
+  G('pa-lo').innerHTML=opts;G('pa-vi').innerHTML=opts;
+  G('pa-se').value=p.serie;G('pa-lo').value=p.local;G('pa-vi').value=p.visita;
+  G('pa-gl').value=p.gl;G('pa-gv').value=p.gv;G('pa-fe').value=p.fecha;
+  G('pa-ho').value=p.hora||'10:00';G('pa-ca').value=p.cancha||'';
+  G('pa-ar').value=p.arb||'';G('pa-es').value=p.estado;
+  G('modal-part').querySelector('.mtit2').textContent='✏️ Editar Partido';
+  G('modal-part').dataset.editId=id;G('modal-part').classList.add('show');
+}
+
+// Series de Adultos y sus puntos por posición
+const SERIES_ADULTOS = {'3° Adulto':2,'2° Adulto':4,'1° Adulto':6};
+
+function calcTablaSerieNormal(serie){
+  const parts=DB.parts.filter(p=>p.serie===serie&&p.estado==='Jugado'&&enP(p.fecha,'g-d','g-h'));
+  const map={};
+  DB.clubes.forEach(c=>{if(c.s&&c.s.includes(serie))map[c.n]={n:c.n,pj:0,pg:0,pe:0,pp:0,gf:0,gc:0};});
+  parts.forEach(p=>{
+    if(!map[p.local])map[p.local]={n:p.local,pj:0,pg:0,pe:0,pp:0,gf:0,gc:0};
+    if(!map[p.visita])map[p.visita]={n:p.visita,pj:0,pg:0,pe:0,pp:0,gf:0,gc:0};
+    const l=map[p.local],v=map[p.visita];
+    l.pj++;v.pj++;l.gf+=p.gl;l.gc+=p.gv;v.gf+=p.gv;v.gc+=p.gl;
+    if(p.gl>p.gv){l.pg++;v.pp++;}else if(p.gl<p.gv){v.pg++;l.pp++;}else{l.pe++;v.pe++;}
+  });
+  return Object.values(map).map(x=>({...x,pts:x.pg*3+x.pe,dg:x.gf-x.gc}))
+    .sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf);
+}
+
+function pintTablaGeneral(){
+  // Calcular tabla de cada serie adulto
+  const resumen = {}; // club -> {pts, series:[{serie,pos,ptos}]}
+  Object.entries(SERIES_ADULTOS).forEach(([serie, ptosPosicion])=>{
+    const tabla = calcTablaSerieNormal(serie);
+    tabla.forEach((t,i)=>{
+      if(!resumen[t.n]) resumen[t.n]={n:t.n,pts:0,series:[]};
+      const pos=i+1;
+      // Puntos fijos por posición en cada serie de Adultos:
+      // 3° Adulto: 1°=2pts, 2°=0pts, 3°=0pts
+      // 2° Adulto: 1°=4pts, 2°=2pts, 3°=0pts
+      // 1° Adulto: 1°=6pts, 2°=4pts, 3°=2pts
+      const ptosPos = Math.max(0, ptosPosicion - (pos-1)*2);
+      resumen[t.n].pts += ptosPos;
+      resumen[t.n].series.push({serie, pos, ptosPos, pj:t.pj, pg:t.pg, pe:t.pe, pp:t.pp});
+    });
+  });
+
+  const tabla = Object.values(resumen).sort((a,b)=>b.pts-a.pts);
+
+  // Cambiar cabecera de tabla para Adultos
+  const thead = document.querySelector('#tb-pos').closest('table').querySelector('thead tr');
+  if(thead) thead.innerHTML='<th>#</th><th>Club</th><th>3° Adulto</th><th>Pos</th><th>2° Adulto</th><th>Pos</th><th>1° Adulto</th><th>Pos</th><th style="color:#c9a227;font-weight:800">PTS TOTAL</th>';
+
+  G('tb-pos').innerHTML=tabla.length?tabla.map((t,i)=>{
+    const s3=t.series.find(x=>x.serie==='3° Adulto');
+    const s2=t.series.find(x=>x.serie==='2° Adulto');
+    const s1=t.series.find(x=>x.serie==='1° Adulto');
+    const pos2txt=(s)=>s?`${s.pos}° (${s.ptosPos}pts)` : '—';
+    const bg=i===0?'background:#fffbeb':i===1?'background:#f8faff':i===2?'background:#fff8f0':'';
+    const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    return `<tr style="${bg}">
+      <td style="text-align:center;font-weight:700;color:${i<3?'#c9a227':'#a0aec0'}">${medal||i+1}</td>
+      <td><b>${t.n}</b>${(()=>{const cl=DB.clubes.find(x=>x.n===t.n);return cl&&cl.catAdulto?` <span style="font-size:.6rem;padding:1px 5px;border-radius:3px;background:${cl.catAdulto==='Honor'?'#dcfce7':'#fef9c3'};color:${cl.catAdulto==='Honor'?'#15803d':'#92400e'};font-weight:700">${cl.catAdulto}</span>`:'';})()}</td>
+      <td style="text-align:center;font-size:.78rem">${s3?s3.pg+'G '+s3.pe+'E':'—'}</td>
+      <td style="text-align:center;font-weight:700;color:${s3&&s3.pos===1?'#c9a227':'#1a3a6b'}">${pos2txt(s3)}</td>
+      <td style="text-align:center;font-size:.78rem">${s2?s2.pg+'G '+s2.pe+'E':'—'}</td>
+      <td style="text-align:center;font-weight:700;color:${s2&&s2.pos===1?'#c9a227':'#1a3a6b'}">${pos2txt(s2)}</td>
+      <td style="text-align:center;font-size:.78rem">${s1?s1.pg+'G '+s1.pe+'E':'—'}</td>
+      <td style="text-align:center;font-weight:700;color:${s1&&s1.pos===1?'#c9a227':'#1a3a6b'}">${pos2txt(s1)}</td>
+      <td style="text-align:center;font-weight:800;font-size:1.1rem;color:#c9a227">${t.pts}</td>
+    </tr>`;
+  }).join(''):`<tr><td colspan="9"><div class="empty"><span>🏆</span><p>Sin partidos jugados en series de Adultos.</p></div></td></tr>`;
+}
+
+function pintPos(){
+  const serie=V('po-s');
+  if(!serie){return;}
+
+  // Restaurar cabecera normal
+  const thead = document.querySelector('#tb-pos').closest('table').querySelector('thead tr');
+
+  if(serie==='TABLA_ADULTOS'){
+    if(thead) thead.innerHTML='<th>#</th><th>Club</th><th>3° Adulto</th><th>Pos</th><th>2° Adulto</th><th>Pos</th><th>1° Adulto</th><th>Pos</th><th>PTS</th>';
+    pintTablaGeneral();
+    return;
+  }
+
+  // Tabla normal para otras series
+  if(thead) thead.innerHTML='<th>#</th><th>Club</th><th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th>';
+
+  const tabla=calcTablaSerieNormal(serie);
+  G('tb-pos').innerHTML=tabla.length?tabla.map((t,i)=>`<tr style="${i===0?'background:#fffbeb':''}">
+    <td style="text-align:center;font-weight:700;color:${i<3?'#c9a227':'#a0aec0'}">${i+1}</td>
+    <td><b>${t.n}</b></td>
+    <td style="text-align:center">${t.pj}</td><td style="text-align:center">${t.pg}</td>
+    <td style="text-align:center">${t.pe}</td><td style="text-align:center">${t.pp}</td>
+    <td style="text-align:center">${t.gf}</td><td style="text-align:center">${t.gc}</td>
+    <td style="text-align:center;color:${t.dg>=0?'#15803d':'#b91c1c'};font-weight:600">${t.dg>0?'+':''}${t.dg}</td>
+    <td style="text-align:center;font-weight:800;font-size:1rem;color:#1a3a6b">${t.pts}</td>
+  </tr>`).join(''):`<tr><td colspan="10"><div class="empty"><span>🏆</span><p>Sin partidos jugados en esta serie.</p></div></td></tr>`;
+}
+
+// ── RENDER CLUBES ─────────────────────────────────────────────────────────
+function getResumenClub(nombreClub){
+  // Usa período global (g-d, g-h)
+  const movs = DB.movs.filter(m => m.club===nombreClub && enP(m.fecha,'g-d','g-h'));
+  const pagado   = movs.filter(m=>m.tipo==='Ingreso'&&m.estado==='Pagado').reduce((s,m)=>s+m.monto,0);
+  const pendiente= movs.filter(m=>m.tipo==='Ingreso'&&m.estado==='Pendiente').reduce((s,m)=>s+m.monto,0);
+  const vencido  = movs.filter(m=>m.tipo==='Ingreso'&&m.estado==='Vencido').reduce((s,m)=>s+m.monto,0);
+  const deuda    = pendiente + vencido;
+  return {pagado, pendiente, vencido, deuda};
+}
+
+function pintClubes(){
+  const tots={pagado:0,deuda:0,vencido:0};
+  const rows = DB.clubes.map((c,i)=>{
+    const ss=c.s.length?c.s.map(s=>`<span class="b baz2" style="font-size:.6rem;margin:1px">${s}</span>`).join(' '):'<span class="b bgr2">Sin asignar</span>';
+    const catBadge=c.catAdulto?`<span class="b ${c.catAdulto==='Honor'?'bve2':'bam2'}" style="font-size:.6rem;margin:1px">⚽ ${c.catAdulto}</span>`:'';
+    const res = getResumenClub(c.n);
+    tots.pagado+=res.pagado; tots.deuda+=res.deuda; tots.vencido+=res.vencido;
+    const tieneVencido = res.vencido > 0;
+    const tieneDeuda   = res.deuda > 0;
+    const estadoBadge  = tieneVencido ? badge('Vencido','brj2') : tieneDeuda ? badge('Pendiente','bam2') : res.pagado>0 ? badge('Al día','bve2') : badge('—','bgr2');
+    return `<tr>
+    <td style="color:#a0aec0">${i+1}</td><td><b>${c.n}</b></td>
+    <td>${ss} ${catBadge}</td><td>${c.d||'—'}</td><td>${c.t||'—'}</td>
+    <td class="td-pag">${res.pagado>0?fm(res.pagado):'—'}</td>
+    <td class="${tieneVencido?'td-ven':tieneDeuda?'td-deu':''}">${res.deuda>0?fm(res.deuda)+(res.vencido>0?' ⚠️':''):'—'}</td>
+    <td>${estadoBadge}</td>
+    <td style="display:flex;gap:4px">
+      <button class="btn baz sm" onclick="editClub(${c.id})">✏️</button>
+      <button class="btn brj sm" onclick="delReg('clubes',${c.id},pintClubes)">🗑️</button>
+    </td></tr>`;
+  });
+  // Fila de totales
+  rows.push(`<tr style="background:#f0f4f8;font-weight:700;border-top:2px solid #1a3a6b">
+    <td colspan="5" style="text-align:right;color:#1a3a6b;font-size:.78rem;letter-spacing:1px">TOTALES DEL PERÍODO</td>
+    <td class="td-pag">${fm(tots.pagado)}</td>
+    <td class="${tots.vencido>0?'td-ven':'td-deu'}">${tots.deuda>0?fm(tots.deuda):'—'}</td>
+    <td></td><td></td>
+  </tr>`);
+  G('tb-clubes').innerHTML = rows.join('');
+}
+
+// ── RENDER SERIES ─────────────────────────────────────────────────────────
+function pintSeries(){
+  const renderCat=(tbId,series)=>{
+    G(tbId).innerHTML=DB.clubes.map((c,i)=>{
+      const curr=c.s.filter(s=>series.includes(s));
+      const opts=series.map(s=>`<option value="${s}"${curr.includes(s)?'':''}>Agregar: ${s}</option>`).join('');
+      return`<tr><td style="color:#a0aec0">${i+1}</td><td><b>${c.n}</b></td>
+      <td>${curr.length?curr.map(s=>`<span class="b baz2" style="font-size:.6rem;margin:1px">${s} <button style="background:none;border:none;cursor:pointer;color:#b91c1c;font-size:.7rem" onclick="quitarSerie(${c.id},'${s}')">✕</button></span>`).join(' '):'<span class="b bgr2">Sin asignar</span>'}</td>
+      <td><select onchange="asignarSerie(${c.id},this.value,this)" style="background:#f7fafc;border:1px solid #e2e8f0;padding:5px 8px;border-radius:6px;font-size:.78rem"><option value="">— Asignar —</option>${opts}</select></td>
+      </tr>`;
+    }).join('');
+  };
+  renderCat('tb-sa',['3° Adulto','2° Adulto','1° Adulto']);
+  renderCat('tb-ss',['Seniors','Super Senior','Dorados']);
+  renderCat('tb-si',['3° Infantil','2° Infantil','1° Infantil','Juvenil']);
+}
+function asignarSerie(id,serie,sel){
+  if(!serie)return;
+  const c=DB.clubes.find(x=>x.id==id);
+  if(c&&!c.s.includes(serie)){c.s.push(serie);notif('✅ '+serie+' asignada a '+c.n);}
+  sel.value='';pintSeries();pintClubes();
+}
+function quitarSerie(id,serie){
+  const c=DB.clubes.find(x=>x.id==id);
+  if(c){c.s=c.s.filter(s=>s!==serie);pintSeries();pintClubes();notif('❌ Serie quitada');}
+}
+function mostrarCat(cat,btn){
+  ['adultos','seniors','infantil'].forEach(c=>{G('cat-'+c).style.display=c===cat?'':'none';});
+  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('activo'));
+  btn.classList.add('activo');
+}
+
+// ── RENDER ÁRBITROS ───────────────────────────────────────────────────────
+function pintArbs(){
+  G('a-to').textContent=DB.arbs.length;
+  G('a-ac').textContent=DB.arbs.filter(a=>a.estado==='Activo').length;
+  let totalPag=0;
+  const rows=DB.arbs.map((a,i)=>{
+    const parts=DB.parts.filter(p=>p.arb===a.nombre&&enP(p.fecha,'g-d','g-h')&&p.estado==='Jugado').length;
+    const tot=parts*a.tarifa;totalPag+=tot;
+    return`<tr><td style="color:#a0aec0">${i+1}</td><td><b>${a.nombre}</b></td>
+    <td>${a.rut||'—'}</td><td>${a.tel||'—'}</td><td>${a.nivel}</td>
+    <td>${fm(a.tarifa)}</td><td style="text-align:center">${parts}</td>
+    <td style="font-weight:700;color:#c9a227">${fm(tot)}</td>
+    <td>${badge(a.estado,a.estado==='Activo'?'bve2':'bgr2')}</td>
+    <td style="display:flex;gap:4px">
+      <button class="btn baz sm" onclick="editArb(${a.id})">✏️</button>
+      <button class="btn brj sm" onclick="delReg('arbs',${a.id},pintArbs)">🗑️</button>
+    </td></tr>`;
+  });
+  G('a-pa').textContent=fm(totalPag);
+  G('tb-arbs').innerHTML=DB.arbs.length?rows.join(''):`<tr><td colspan="10"><div class="empty"><span>🎯</span><p>Sin árbitros. Usa "➕ Registrar Árbitro".</p></div></td></tr>`;
+}
+
+// ── RENDER JUGADORES ──────────────────────────────────────────────────────
+function pintJugs(){
+  const cl=V('jug-cl'),se=V('jug-se');
+  const data=DB.jugs.filter(j=>(!cl||j.club===cl)&&(!se||j.serie===se));
+  G('j-to').textContent=data.length;
+  G('j-cl').textContent=new Set(data.map(j=>j.club)).size;
+  G('j-sa').textContent=data.filter(j=>j.estado==='Sancionado').length;
+  const bs={Activo:'bve2',Inactivo:'bgr2',Sancionado:'brj2'};
+  G('tb-jugs').innerHTML=data.length?data.map((j,i)=>`<tr>
+    <td style="color:#a0aec0">${i+1}</td><td><b>${j.nombre}</b></td>
+    <td>${j.rut||'—'}</td><td>${j.club}</td><td>${j.serie}</td>
+    <td>${j.posicion}</td><td style="text-align:center">${j.numero||'—'}</td>
+    <td>${badge(j.estado,bs[j.estado]||'bgr2')}</td>
+    <td style="display:flex;gap:4px">
+      <button class="btn baz sm" onclick="editJug(${j.id})">✏️</button>
+      <button class="btn brj sm" onclick="delReg('jugs',${j.id},pintJugs)">🗑️</button>
+    </td>
+  </tr>`).join(''):`<tr><td colspan="9"><div class="empty"><span>👟</span><p>Sin jugadores. Usa "➕ Registrar Jugador".</p></div></td></tr>`;
+  // Actualizar select de clubes en filtro
+  const opts='<option value="">Todos</option>'+[...new Set(DB.jugs.map(j=>j.club))].sort().map(c=>`<option${cl===c?' selected':''}>${c}</option>`).join('');
+  if(G('jug-cl'))G('jug-cl').innerHTML=opts;
+}
+
+// ── RENDER ACTAS ──────────────────────────────────────────────────────────
+function pintActas(){
+  const data=DB.actas.filter(a=>enP(a.fecha,'g-d','g-h')).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  G('ac-to').textContent=data.length;
+  G('ac-in').textContent=data.filter(a=>a.incidencias&&a.incidencias.trim()).length;
+  G('ac-su').textContent=data.filter(a=>a.suspensiones&&a.suspensiones.trim()).length;
+  G('tb-actas').innerHTML=data.length?data.map(a=>`<tr>
+    <td>${a.nacta||'—'}</td><td>${fd(a.fecha)}</td><td>${a.serie}</td>
+    <td>${a.local||'—'}</td>
+    <td style="text-align:center;font-weight:700;font-size:1rem;color:#1a3a6b">${a.resultado||'—'}</td>
+    <td>${a.visita||'—'}</td><td>${a.arb||'—'}</td>
+    <td style="color:#a0aec0;font-size:.75rem">${a.incidencias||'Sin incidencias'}</td>
+    <td style="display:flex;gap:4px">
+      <button class="btn baz sm" onclick="editActa(${a.id})">✏️</button>
+      <button class="btn brj sm" onclick="delReg('actas',${a.id},pintActas)">🗑️</button>
+    </td>
+  </tr>`).join(''):`<tr><td colspan="9"><div class="empty"><span>📄</span><p>Sin actas. Usa "➕ Nueva Acta".</p></div></td></tr>`;
+}
+
+// ── RENDER ADMIN ──────────────────────────────────────────────────────────
+function pintAdmin(){
+  pintAdmClubes('');
+  G('adm-ser').innerHTML=SERIES_DEF.map(s=>`<div class="afila">
+    <span>${s.n}</span>
+    <div style="display:flex;align-items:center;gap:6px">
+      <input type="number" value="${DB.bord[s.n]||s.b}" onchange="DB.bord['${s.n}']=parseInt(this.value)||0;notif('✅ Borderó actualizado')" style="width:90px;background:#f7fafc;border:1px solid #e2e8f0;padding:4px 7px;border-radius:5px;font-size:.82rem;font-family:system-ui">
+      <span style="color:#a0aec0;font-size:.7rem">$/equipo</span>
+    </div></div>`).join('');
+  const ultMovs=DB.movs.slice(-5).reverse();
+  G('adm-movs').innerHTML=ultMovs.length?ultMovs.map(m=>`<div class="afila"><span>${m.club||'—'} · ${m.glosa||m.cat}</span><span style="font-weight:700;color:${m.tipo==='Ingreso'?'#15803d':'#b91c1c'}">${m.tipo==='Ingreso'?'+':'−'}${fm(m.monto)}</span></div>`).join(''):'<p style="color:#a0aec0;font-size:.82rem;padding:8px">Sin movimientos.</p>';
+  const ultSancs=DB.sancs.slice(-5).reverse();
+  G('adm-sancs').innerHTML=ultSancs.length?ultSancs.map(s=>`<div class="afila"><span>${s.jugador} (${s.club})</span>${badge(s.estado,s.estado==='Activa'?'brj2':'bve2')}</div>`).join(''):'<p style="color:#a0aec0;font-size:.82rem;padding:8px">Sin sanciones.</p>';
+}
+function pintAdmClubes(q){
+  const lista=DB.clubes.filter(c=>!q||c.n.toLowerCase().includes(q.toLowerCase()));
+  G('adm-cls').innerHTML=lista.length?lista.map(c=>`<div class="afila">
+    <span><b>${c.n}</b> <span style="color:#a0aec0;font-size:.7rem">${c.s.length?c.s.join(', '):'Sin serie'}</span></span>
+    <div style="display:flex;gap:4px">
+      <button class="btn baz sm" onclick="editClub(${c.id})">✏️</button>
+      <button class="btn brj sm" onclick="delReg('clubes',${c.id},()=>{pintClubes();pintAdmin();})">🗑️</button>
+    </div></div>`).join(''):'<p style="color:#a0aec0;font-size:.82rem;padding:8px">Sin resultados.</p>';
+}
+
+// ── EXPORT ────────────────────────────────────────────────────────────────
+function buildMods(){
+  const mods={
+    tesoreria:()=>{
+      const movs=DB.movs.filter(m=>enP(m.fecha,'g-d','g-h'));
+      const ing=movs.filter(m=>m.tipo==='Ingreso'&&m.estado==='Pagado').reduce((s,m)=>s+m.monto,0);
+      const gas=movs.filter(m=>m.tipo==='Gasto'&&m.estado==='Pagado').reduce((s,m)=>s+m.monto,0);
+      const deu=movs.filter(m=>m.tipo==='Ingreso'&&m.estado==='Pendiente').reduce((s,m)=>s+m.monto,0);
+      const ven=movs.filter(m=>m.tipo==='Ingreso'&&m.estado==='Vencido').reduce((s,m)=>s+m.monto,0);
+      return [
+        ['TESORERÍA — '+fd(V('g-d'))+' al '+fd(V('g-h'))],
+        [],
+        ['RESUMEN'],
+        ['Ingresos Pagados',ing],['Gastos Pagados',gas],['Saldo Real',ing-gas],
+        ['Por Cobrar',deu],['Vencido',ven],['Total por cobrar',deu+ven],
+        [],
+        ['DETALLE DE MOVIMIENTOS'],
+        ['Fecha','Tipo','Club/Concepto','Categoría','Ingreso $','Gasto $','Estado','Glosa'],
+        ...movs.sort((a,b)=>b.fecha.localeCompare(a.fecha)).map(m=>[
+          m.fecha,m.tipo,m.club||'—',m.cat,
+          m.tipo==='Ingreso'?m.monto:0,
+          m.tipo==='Gasto'?m.monto:0,
+          m.estado,m.glosa||'—'
+        ]),
+        [],
+        ['CUENTAS POR COBRAR POR CLUB'],
+        ['Club','Pagado','Pendiente','Vencido','Total Deuda'],
+        ...DB.clubes.map(c=>{
+          const cm=movs.filter(x=>x.club===c.n&&x.tipo==='Ingreso');
+          const p=cm.filter(x=>x.estado==='Pagado').reduce((s,x)=>s+x.monto,0);
+          const pe=cm.filter(x=>x.estado==='Pendiente').reduce((s,x)=>s+x.monto,0);
+          const v=cm.filter(x=>x.estado==='Vencido').reduce((s,x)=>s+x.monto,0);
+          return (p+pe+v)>0?[c.n,p,pe,v,pe+v]:null;
+        }).filter(Boolean)
+      ];
+    },
+    disciplina:()=>[['N°Acta','Fecha','Jugador','Club','Serie','Sanción','Fechas','Multa','Estado'],...DB.sancs.map(s=>[s.acta,s.fecha,s.jugador,s.club,s.serie,s.tipo,s.fechas,s.multa,s.estado])],
+    presidencia:()=>[['Fecha','Tipo','Asunto/Temas','Dirigido','Firmado'],...[...DB.circs,...DB.reuns].map(x=>[x.fecha,x.tipo,x.asunto||x.temas,x.dir||'',x.firma||''])],
+    secretaria:()=>[['Fecha','Tipo','Club','Detalle','Estado'],...DB.trams.map(t=>[t.fecha,t.tipo,t.club,t.detalle,t.estado])],
+    fixture:()=>[['Fecha','Serie','Local','GL','GV','Visitante','Árbitro','Cancha','Estado'],...DB.parts.map(p=>[p.fecha,p.serie,p.local,p.gl,p.gv,p.visita,p.arb,p.cancha,p.estado])],
+    clubes:()=>{
+      const movs=DB.movs.filter(m=>enP(m.fecha,'g-d','g-h'));
+      return [
+        ['CLUBES — '+fd(V('g-d'))+' al '+fd(V('g-h'))],
+        [],
+        ['Club','Series','Delegado','Teléfono','Pagado $','Por Cobrar $','Vencido $','Estado'],
+        ...DB.clubes.map(c=>{
+          const cm=movs.filter(x=>x.club===c.n&&x.tipo==='Ingreso');
+          const p=cm.filter(x=>x.estado==='Pagado').reduce((s,x)=>s+x.monto,0);
+          const pe=cm.filter(x=>x.estado==='Pendiente').reduce((s,x)=>s+x.monto,0);
+          const v=cm.filter(x=>x.estado==='Vencido').reduce((s,x)=>s+x.monto,0);
+          const est=v>0?'Vencido':pe>0?'Pendiente':p>0?'Al día':'Sin movimientos';
+          return [c.n,c.s.join(', '),c.d||'—',c.t||'—',p,pe,v,est];
+        }),
+        [],
+        ['TOTALES','','','',
+          DB.clubes.reduce((s,c)=>{const cm=movs.filter(x=>x.club===c.n&&x.tipo==='Ingreso'&&x.estado==='Pagado');return s+cm.reduce((a,x)=>a+x.monto,0);},0),
+          DB.clubes.reduce((s,c)=>{const cm=movs.filter(x=>x.club===c.n&&x.tipo==='Ingreso'&&x.estado==='Pendiente');return s+cm.reduce((a,x)=>a+x.monto,0);},0),
+          DB.clubes.reduce((s,c)=>{const cm=movs.filter(x=>x.club===c.n&&x.tipo==='Ingreso'&&x.estado==='Vencido');return s+cm.reduce((a,x)=>a+x.monto,0);},0),
+          ''
+        ]
+      ];
+    },
+    arbitros:()=>[['Nombre','RUT','Teléfono','Nivel','Tarifa','Estado'],...DB.arbs.map(a=>[a.nombre,a.rut,a.tel,a.nivel,a.tarifa,a.estado])],
+    jugadores:()=>[['Nombre','RUT','Club','Serie','Posición','N°','Estado'],...DB.jugs.map(j=>[j.nombre,j.rut,j.club,j.serie,j.posicion,j.numero,j.estado])],
+    actas:()=>[['N°Acta','Fecha','Serie','Local','Resultado','Visitante','Árbitro','Incidencias'],...DB.actas.map(a=>[a.nacta,a.fecha,a.serie,a.local,a.resultado,a.visita,a.arb,a.incidencias])],
+    resumen:()=>{
+      const movs=DB.movs.filter(m=>enP(m.fecha,'g-d','g-h'));
+      const ing=movs.filter(m=>m.tipo==='Ingreso'&&m.estado==='Pagado').reduce((s,m)=>s+m.monto,0);
+      const gas=movs.filter(m=>m.tipo==='Gasto'&&m.estado==='Pagado').reduce((s,m)=>s+m.monto,0);
+      const deu=movs.filter(m=>m.tipo==='Ingreso'&&m.estado==='Pendiente').reduce((s,m)=>s+m.monto,0);
+      const ven=movs.filter(m=>m.tipo==='Ingreso'&&m.estado==='Vencido').reduce((s,m)=>s+m.monto,0);
+      return [
+        ['RESUMEN GENERAL — '+fd(V('g-d'))+' al '+fd(V('g-h'))],
+        [],
+        ['Indicador','Valor'],
+        ['Clubes',DB.clubes.length],
+        ['Partidos Jugados',DB.parts.filter(p=>p.estado==='Jugado'&&enP(p.fecha,'g-d','g-h')).length],
+        ['Ingresos Pagados',ing],
+        ['Gastos Pagados',gas],
+        ['Saldo Real',ing-gas],
+        ['Por Cobrar (Pendiente)',deu],
+        ['Vencido sin pagar',ven],
+        ['Total por cobrar',deu+ven],
+        ['Sancionados Activos',DB.sancs.filter(s=>s.estado==='Activa'&&enP(s.fecha,'g-d','g-h')).length],
+      ];
+    },
+    financiero:()=>[['Serie','Equipos','Borderó','Ing.Mensual','Arbitraje','Turnos','Margen/Mes','Margen/Año'],['Seniors',22,22000,1936000,968000,220000,748000,7480000],['Super Senior',19,22000,1672000,836000,190000,646000,6460000],['Dorados',20,22000,1760000,880000,200000,680000,6800000],['Adultos',22,60000,5280000,3564000,440000,1276000,12760000],['1° Infantil',17,13000,884000,442000,0,442000,4420000],['2° Infantil',12,12000,576000,288000,0,288000,2880000],['Juvenil',12,14000,672000,360000,0,312000,3120000],['TOTAL',124,'—',12780000,7338000,1050000,3704000,37040000]],
+  };
+  return mods;
+}
+
+function expXLS(mod){
+  if(typeof XLSX==='undefined'){notif('⚠️ XLSX no cargado, intenta de nuevo');return;}
+  const wb=XLSX.utils.book_new();
+  const meta=[['ASOCIACIÓN HISTÓRICA DE RENCA'],['Sistema Control Directivo 2026'],['Exportado:',new Date().toLocaleDateString('es-CL')],[]];
+  const mods=buildMods();
+  if(mod==='completo'){
+    Object.entries(mods).forEach(([k,fn])=>{const ws=XLSX.utils.aoa_to_sheet([...meta,...fn()]);XLSX.utils.book_append_sheet(wb,ws,k.charAt(0).toUpperCase()+k.slice(1));});
+  }else if(mods[mod]){
+    const ws=XLSX.utils.aoa_to_sheet([...meta,...mods[mod]()]);XLSX.utils.book_append_sheet(wb,ws,mod);
+  }
+  XLSX.writeFile(wb,`AHRenca_${mod}_${new Date().toISOString().slice(0,10)}.xlsx`);
+  notif('📊 Excel descargado');
+}
+
+function expPDF(mod){
+  const nombres={resumen:'Resumen General',tesoreria:'Tesorería',disciplina:'Disciplina',
+    presidencia:'Presidencia',secretaria:'Secretaría',fixture:'Fixture',posiciones:'Posiciones',
+    clubes:'Clubes',series:'Series',arbitros:'Árbitros',jugadores:'Jugadores',
+    actas:'Actas',financiero:'Financiero',informes:'Informes',admin:'Admin',completo:'Informe General'};
+
+  function fmPDF(v){return typeof v==='number'?'$'+v.toLocaleString('es-CL'):v||'—';}
+
+  function data2html(rows){
+    if(!rows||!rows.length)return '<p style="color:#a0aec0">Sin datos en el período.</p>';
+    let out='',inTable=false;
+    rows.forEach((row,i)=>{
+      if(!Array.isArray(row)||row.every(c=>!c&&c!==0)){
+        if(inTable){out+='</tbody></table>';inTable=false;}
+        out+='<div style="height:8px"></div>';return;
+      }
+      const noV=row.filter(c=>c!==''&&c!==null&&c!==undefined);
+      if(noV.length===1){
+        if(inTable){out+='</tbody></table>';inTable=false;}
+        out+=`<h3 style="color:#1a3a6b;margin:16px 0 6px;font-size:.95rem;border-bottom:2px solid #1a3a6b;padding-bottom:4px">${noV[0]}</h3>`;return;
+      }
+      if(!inTable){
+        out+='<table style="width:100%;border-collapse:collapse;margin:4px 0 12px;font-size:.78rem"><thead><tr>';
+        row.forEach(c=>out+=`<th style="background:#1a3a6b;color:#fff;padding:7px 8px;text-align:left;font-size:.62rem;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap">${c||''}</th>`);
+        out+='</tr></thead><tbody>';inTable=true;return;
+      }
+      const isLast=i===rows.length-1||!Array.isArray(rows[i+1])||rows[i+1].every(c=>!c&&c!==0);
+      out+=`<tr style="${isLast?'background:#f0f4f8;font-weight:700;border-top:2px solid #1a3a6b':''}">`;
+      row.forEach(c=>out+=`<td style="padding:6px 8px;border-bottom:1px solid #f0f4f8">${fmPDF(c)}</td>`);
+      out+='</tr>';
+    });
+    if(inTable)out+='</tbody></table>';
+    return out;
+  }
+
+  // Obtener datos igual que expXLS
+  function getDatos(m){
+    const wb_mods=buildMods();
+    if(!wb_mods[m])return null;
+    const d=wb_mods[m];
+    return Array.isArray(d)?d:d();
+  }
+
+  const w=window.open('','_blank','width=1000,height=750');
+  if(!w){notif('⚠️ Permite popups en tu navegador.');return;}
+
+  let contenidoPDF='';
+  const allMods=['resumen','tesoreria','disciplina','presidencia','secretaria','fixture','clubes','arbitros','jugadores','actas','financiero'];
+
+  if(mod==='completo'){
+    allMods.forEach(k=>{
+      const datos=getDatos(k);
+      if(datos)contenidoPDF+=`<div style="page-break-inside:avoid"><h2 style="background:#1a3a6b;color:#fff;padding:10px 14px;border-radius:6px;margin:24px 0 8px;font-size:1rem">${nombres[k]||k}</h2>${data2html(datos)}</div>`;
+    });
+  }else{
+    const datos=getDatos(mod);
+    contenidoPDF=datos?data2html(datos):'<p>Sin datos para este módulo.</p>';
+  }
+
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>AHRenca — ${nombres[mod]||mod}</title>
+  <style>
+    *{box-sizing:border-box}
+    body{font-family:system-ui,sans-serif;color:#1a202c;padding:20px;max-width:960px;margin:0 auto}
+    .portada{background:linear-gradient(135deg,#0a1628,#1a3a6b);color:#fff;padding:22px 28px;border-radius:10px;margin-bottom:16px;border-bottom:4px solid #c9a227}
+    .portada h1{font-size:1.2rem;margin:0;font-weight:800}
+    .portada p{color:rgba(255,255,255,.75);margin:6px 0 0;font-size:.78rem}
+    .no-print{margin-bottom:14px;display:flex;gap:8px}
+    .bp{background:#1a3a6b;color:#fff;border:none;padding:10px 20px;border-radius:7px;cursor:pointer;font-size:.85rem;font-weight:700}
+    .bc{background:#e2e8f0;color:#4a5568;border:none;padding:10px 16px;border-radius:7px;cursor:pointer;font-size:.85rem}
+    @media print{.no-print{display:none}body{padding:8px}h2,h3{page-break-after:avoid}}
+  </style></head><body>
+  <div class="portada">
+    <h1>⚽ ASOCIACIÓN HISTÓRICA DE RENCA — ${nombres[mod]||mod}</h1>
+    <p>Sistema Control Directivo 2026 &nbsp;·&nbsp; Período: ${fd(V('g-d'))} al ${fd(V('g-h'))} &nbsp;·&nbsp; Emitido: ${new Date().toLocaleDateString('es-CL',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</p>
+  </div>
+  <div class="no-print">
+    <button class="bp" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+    <button class="bc" onclick="window.close()">✕ Cerrar</button>
+  </div>
+  ${contenidoPDF}
+  </body></html>`);
+  w.document.close();
+  notif('📄 PDF listo — presiona Imprimir');
+}
+
+
+const CLAVES = {
+  admin:      'AHR2026admin',
+  presidente: 'Pres2026*',
+  tesorero:   'Tes2026*',
+  secretario: 'Sec2026*',
+  disciplina: 'Disc2026*',
+  arbitros:   'Arb2026*',
+  fixture:    'Fix2026*'
+};
+
+const ROLES = {
+  admin:      {nombre:'Administrador',  tabs:['resumen','tesoreria','disciplina','presidencia','secretaria','fixture','posiciones','clubes','series','arbitros','jugadores','actas','financiero','informes','admin'], write:['tesoreria','disciplina','presidencia','secretaria','fixture','posiciones','clubes','series','arbitros','jugadores','actas','admin'], del:true},
+  presidente: {nombre:'Presidente',     tabs:['resumen','presidencia','informes'], write:['presidencia'], del:false},
+  tesorero:   {nombre:'Tesorero/a',     tabs:['resumen','tesoreria','financiero','informes'], write:['tesoreria'], del:false},
+  secretario: {nombre:'Secretario/a',   tabs:['resumen','secretaria','clubes','series','jugadores','fixture','posiciones','informes'], write:['secretaria','clubes','series','jugadores','fixture','posiciones'], del:false},
+  disciplina: {nombre:'Disciplina',     tabs:['resumen','disciplina','actas','informes'], write:['disciplina','actas'], del:false},
+  arbitros:   {nombre:'Árbitros',       tabs:['resumen','arbitros','informes'], write:['arbitros'], del:false},
+  fixture:    {nombre:'Fixture',        tabs:['resumen','fixture','posiciones','informes'], write:['fixture','posiciones'], del:false}
+};
+
+let ROL_ACTUAL = null;
+
+function doLogin(){
+  const user = G('login-user').value;
+  const pass = G('login-pass').value;
+  if(!user){G('login-err').textContent='Selecciona tu usuario.';return;}
+  // Clave: primero DB.claves (sincronizada), luego CLAVES por defecto
+  const claveValida = (DB.claves&&DB.claves[user]) || CLAVES[user];
+  if(pass !== claveValida){G('login-err').textContent='Contraseña incorrecta.';G('login-pass').value='';return;}
+  ROL_ACTUAL = user;
+  G('login-screen').style.display='none';
+  aplicarRol();
+  notif('👋 Bienvenido/a — '+ROLES[user].nombre);
+}
+
+function aplicarRol(){
+  const rol = ROLES[ROL_ACTUAL];
+  if(!rol) return;
+
+  // 1. Mostrar solo tabs del rol
+  document.querySelectorAll('.ntab').forEach(btn=>{
+    const m = btn.getAttribute('onclick').match(/ir\('(\w+)'/);
+    if(!m) return;
+    btn.style.display = rol.tabs.includes(m[1]) ? '' : 'none';
+  });
+
+  // 2. Navegar al primer tab permitido
+  const tabs = rol.tabs;
+  const primerTab = tabs[0];
+  document.querySelectorAll('.pag').forEach(p=>p.classList.remove('activo'));
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('activo'));
+  const pagEl = G('pag-'+primerTab);
+  if(pagEl) pagEl.classList.add('activo');
+  document.querySelectorAll('.ntab').forEach(b=>{
+    const m=b.getAttribute('onclick').match(/ir\('(\w+)'/);
+    if(m&&m[1]===primerTab) b.classList.add('activo');
+  });
+  const renders={tesoreria:pintMovs,disciplina:pintSancs,presidencia:pintCircs,
+    secretaria:pintTrams,fixture:pintFix,posiciones:pintPos,clubes:pintClubes,
+    series:pintSeries,arbitros:pintArbs,jugadores:pintJugs,actas:pintActas,
+    admin:pintAdmin,resumen:pintRes};
+  if(renders[primerTab]) renders[primerTab]();
+
+  // 3. Header
+  G('hdr-user').textContent = rol.nombre;
+  G('hdr-user').style.display = 'block';
+  G('btn-clave').style.display = 'inline-flex';
+  G('btn-logout').style.display = 'inline-flex';
+
+  // 4. Permisos
+  aplicarPermisos();
+}
+
+
+function aplicarPermisos(){
+  if(!ROL_ACTUAL) return;
+  const rol = ROLES[ROL_ACTUAL];
+
+  // Mapeo modal -> módulo
+  const MODAL_MOD = {
+    'modal-mov':'tesoreria','modal-sanc':'disciplina','modal-circ':'presidencia',
+    'modal-reun':'presidencia','modal-tram':'secretaria','modal-part':'fixture',
+    'modal-club':'clubes','modal-arb':'arbitros','modal-jug':'jugadores','modal-acta':'actas'
+  };
+  // Mapeo array -> módulo
+  const ARR_MOD = {
+    movs:'tesoreria',sancs:'disciplina',circs:'presidencia',reuns:'presidencia',
+    trams:'secretaria',parts:'fixture',clubes:'clubes',arbs:'arbitros',
+    jugs:'jugadores',actas:'actas'
+  };
+  // Mapeo función edit -> módulo
+  const EDIT_MOD = {
+    editMov:'tesoreria',editSanc:'disciplina',editCirc:'presidencia',
+    editTram:'secretaria',editPart:'fixture',editArb:'arbitros',
+    editJug:'jugadores',editActa:'actas',editClub:'clubes'
+  };
+
+  // Botones abrirM (➕ Agregar)
+  document.querySelectorAll('[onclick*="abrirM("]').forEach(btn=>{
+    const m = btn.getAttribute('onclick').match(/abrirM\('([^']+)'\)/);
+    if(!m) return;
+    const mod = MODAL_MOD[m[1]];
+    btn.style.display = (mod && rol.write.includes(mod)) ? '' : 'none';
+  });
+
+  // Botones delReg (🗑️)
+  document.querySelectorAll('[onclick*="delReg("]').forEach(btn=>{
+    const m = btn.getAttribute('onclick').match(/delReg\('(\w+)'/);
+    if(!m) return;
+    const mod = ARR_MOD[m[1]];
+    btn.style.display = (mod && rol.write.includes(mod)) ? '' : 'none';
+  });
+
+  // Botones edit (✏️)
+  Object.entries(EDIT_MOD).forEach(([fn,mod])=>{
+    document.querySelectorAll('[onclick*="'+fn+'("]').forEach(btn=>{
+      btn.style.display = rol.write.includes(mod) ? '' : 'none';
+    });
+  });
+
+  // Botón ✔ Pagado
+  document.querySelectorAll('[onclick*="marcarPagado("]').forEach(btn=>{
+    btn.style.display = rol.write.includes('tesoreria') ? '' : 'none';
+  });
+  // Botón ✔ Cumplida
+  document.querySelectorAll('[onclick*="cumplirS("]').forEach(btn=>{
+    btn.style.display = rol.write.includes('disciplina') ? '' : 'none';
+  });
+  // Botones series
+  document.querySelectorAll('[onclick*="asignarSerie("]').forEach(btn=>{
+    btn.style.display = rol.write.includes('series') ? '' : 'none';
+  });
+  document.querySelectorAll('[onclick*="quitarSerie("]').forEach(btn=>{
+    btn.style.display = rol.write.includes('series') ? '' : 'none';
+  });
+
+  // Solo admin ve reset/limpiar
+  ['resetDB','limpiarDatos'].forEach(fn=>{
+    const btn = document.querySelector('[onclick="'+fn+'()"]');
+    if(btn) btn.style.display = ROL_ACTUAL==='admin' ? '' : 'none';
+  });
+
+  // Modo impresión: ocultar todo excepto Excel/PDF
+  if(ROL_ACTUAL==='impresion'){
+    ['abrirM(','editMov(','editSanc(','editCirc(','editTram(','editPart(',
+     'editArb(','editJug(','editActa(','editClub(','delReg(','marcarPagado(',
+     'cumplirS(','asignarSerie(','quitarSerie('].forEach(fn=>{
+      document.querySelectorAll('[onclick*="'+fn+'"]').forEach(b=>b.style.display='none');
+    });
+    G('hdr-user').textContent='🖨️ Solo Impresión';
+  }
+}
+
+
+function modoImpresion(){
+  ROLES['impresion'] = {
+    nombre:'Solo Impresión',
+    tabs:['resumen','tesoreria','disciplina','presidencia','secretaria','fixture',
+          'posiciones','clubes','series','arbitros','jugadores','actas','financiero','informes'],
+    write:[],
+    del:false
+  };
+  ROL_ACTUAL = 'impresion';
+  G('login-screen').style.display='none';
+  aplicarRol();
+  G('btn-clave').style.display='none';
+  notif('🖨️ Modo Solo Impresión — puedes exportar Excel y PDF libremente');
+}
+
+function cerrarSesion(){
+  ROL_ACTUAL = null;
+  G('login-pass').value='';
+  G('login-err').textContent='';
+  G('login-screen').style.display='flex';
+  G('hdr-user').style.display='none';
+  G('btn-clave').style.display='none';
+  G('btn-logout').style.display='none';
+}
+
+function abrirCambioClave(){
+  const nueva = prompt('Nueva contraseña para '+ROLES[ROL_ACTUAL].nombre+' (mínimo 6 caracteres):');
+  if(!nueva){return;}
+  if(nueva.length<6){alert('La contraseña debe tener al menos 6 caracteres.');return;}
+  const confirma = prompt('Confirma la nueva contraseña:');
+  if(nueva!==confirma){alert('Las contraseñas no coinciden.');return;}
+  if(!DB.claves) DB.claves={};
+  DB.claves[ROL_ACTUAL] = nueva;
+  guardarDB();
+  alert('✅ Contraseña actualizada. Se guarda en la base de datos local.\n\nIMPORTANTE: Para que funcione en otros computadores, exporta los datos con Excel o haz backup de la DB.');
+}
+
+// Re-aplicar permisos después de cada render (por si se agregaron nuevos botones eliminar)
+const _pintClubes=pintClubes,_pintMovs=pintMovs,_pintSancs=pintSancs,
+      _pintCircs=pintCircs,_pintTrams=pintTrams,_pintFix=pintFix,
+      _pintArbs=pintArbs,_pintJugs=pintJugs,_pintActas=pintActas,_pintAdmin=pintAdmin;
+pintClubes=()=>{_pintClubes();if(ROL_ACTUAL)aplicarPermisos();};
+pintMovs=()=>{_pintMovs();if(ROL_ACTUAL)aplicarPermisos();};
+pintSancs=()=>{_pintSancs();if(ROL_ACTUAL)aplicarPermisos();};
+pintCircs=()=>{_pintCircs();if(ROL_ACTUAL)aplicarPermisos();};
+pintTrams=()=>{_pintTrams();if(ROL_ACTUAL)aplicarPermisos();};
+pintFix=()=>{_pintFix();if(ROL_ACTUAL)aplicarPermisos();};
+pintArbs=()=>{_pintArbs();if(ROL_ACTUAL)aplicarPermisos();};
+pintJugs=()=>{_pintJugs();if(ROL_ACTUAL)aplicarPermisos();};
+pintActas=()=>{_pintActas();if(ROL_ACTUAL)aplicarPermisos();};
+pintAdmin=()=>{_pintAdmin();if(ROL_ACTUAL)aplicarPermisos();};
+
+// ── GUARDADO AUTOMÁTICO ───────────────────────────────────────────────────
+const STORAGE_KEY = 'ahrenca_db_2026';
+
+function guardarDB(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({DB,UID})); }
+  catch(e){ console.warn('Error guardando localStorage:',e); }
+  // También guardar en Firebase
+  guardarFirebase();
+}
+
+function cargarDB(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const saved = JSON.parse(raw);
+      if(saved.DB) Object.assign(DB, saved.DB);
+      if(saved.UID) UID = saved.UID;
+      return true;
+    }
+  }catch(e){ console.warn('Error cargando:',e); }
+  return false;
+}
+
+function limpiarDatos(){
+  if(confirm('¿Limpiar todos los datos guardados y dejar solo los 38 clubes?\nEsta acción NO se puede deshacer.')){
+    // Resetear todo menos los clubes
+    DB.movs=[];DB.sancs=[];DB.circs=[];DB.reuns=[];
+    DB.trams=[];DB.parts=[];DB.arbs=[];DB.jugs=[];DB.actas=[];
+    // Resetear pagos de clubes
+    DB.clubes.forEach(c=>{c.bord=0;c.ins=0;c.mul=0;c.pas=0;c.s=[];c.d='';c.t='';});
+    guardarDB();
+    pintClubes();pintRes();pintAdmin();pintMovs();pintSancs();
+    pintCircs();pintTrams();pintFix();pintArbs();pintJugs();pintActas();
+    notif('✅ Datos limpiados — solo quedan los 38 clubes');
+  }
+}
+
+// Auto-guardar después de cada acción
+const _orig = {gClub,gMov,gSanc,gCirc,gReun,gTram,gPart,gArb,gJug,gActa,delReg,asignarSerie,quitarSerie,cumplirS};
+gClub=()=>{_orig.gClub();guardarDB();};
+gMov=()=>{_orig.gMov();guardarDB();};
+gSanc=()=>{_orig.gSanc();guardarDB();};
+gCirc=()=>{_orig.gCirc();guardarDB();};
+gReun=()=>{_orig.gReun();guardarDB();};
+gTram=()=>{_orig.gTram();guardarDB();};
+gPart=()=>{_orig.gPart();guardarDB();};
+gArb=()=>{_orig.gArb();guardarDB();};
+gJug=()=>{_orig.gJug();guardarDB();};
+gActa=()=>{_orig.gActa();guardarDB();};
+delReg=(arr,id,fn)=>{_orig.delReg(arr,id,fn);guardarDB();};
+asignarSerie=(id,s,sel)=>{_orig.asignarSerie(id,s,sel);guardarDB();};
+quitarSerie=(id,s)=>{_orig.quitarSerie(id,s);guardarDB();};
+cumplirS=(id)=>{_orig.cumplirS(id);guardarDB();};
+
+window.addEventListener('beforeunload', guardarDB);
+
+// ── IMPORTAR FIXTURE DESDE EXCEL ──────────────────────────────────────────
+let _importData = [];
+
+function abrirImportFix(){
+  G('modal-import-fix').style.display='flex';
+  G('imp-file').value='';
+  G('imp-preview').style.display='none';
+  G('imp-btn-ok').style.display='none';
+  G('imp-tbody').innerHTML='';
+  G('imp-warn').textContent='';
+  _importData=[];
+}
+
+function parseFecha(v){
+  if(!v) return '';
+  // Si es número de Excel (días desde 1900)
+  if(typeof v==='number'){
+    const d=new Date(Math.round((v-25569)*86400*1000));
+    return d.toISOString().slice(0,10);
+  }
+  const s=String(v).trim();
+  // YYYY-MM-DD
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  // DD/MM/YYYY o DD-MM-YYYY
+  const m=s.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
+  if(m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+  return s;
+}
+
+function previsualizarImport(inp){
+  const file=inp.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      let rows=[];
+      if(file.name.endsWith('.csv')){
+        // Parsear CSV
+        const text=new TextDecoder('utf-8').decode(e.target.result);
+        rows=text.split('\n').filter(r=>r.trim()).map(r=>r.split(/[,;\t]/).map(c=>c.replace(/^"|"$/g,'').trim()));
+      } else {
+        // Parsear XLSX
+        if(typeof XLSX==='undefined'){notif('⚠️ XLSX no cargado');return;}
+        const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+        const ws=wb.Sheets[wb.SheetNames[0]];
+        rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true});
+      }
+      if(!rows.length){notif('⚠️ Archivo vacío');return;}
+
+      // Detectar si primera fila es encabezado
+      const primera=rows[0].map(c=>String(c||'').toLowerCase());
+      const esHeader=primera.some(c=>['fecha','serie','local','visit','partido','equipo'].some(k=>c.includes(k)));
+      const datos=esHeader?rows.slice(1):rows;
+
+      _importData=[];
+      const warns=[];
+
+      datos.forEach((row,i)=>{
+        if(!row||row.every(c=>!c&&c!==0)) return;
+        const fecha=parseFecha(row[0]);
+        const serie=String(row[1]||'').trim();
+        const local=String(row[2]||'').trim();
+        const visita=String(row[3]||'').trim();
+        const gl=parseInt(row[4])||0;
+        const gv=parseInt(row[5])||0;
+        const cancha=String(row[6]||'').trim();
+        const arb=String(row[7]||'').trim();
+        const estadoRaw=String(row[8]||'Programado').trim();
+        const estadosValidos=['Programado','Jugado','Suspendido','Postergado'];
+        const estado=estadosValidos.find(e=>e.toLowerCase()===estadoRaw.toLowerCase())||'Programado';
+
+        if(!fecha){warns.push(`Fila ${i+2}: fecha inválida`);return;}
+        if(!local||!visita){warns.push(`Fila ${i+2}: falta local o visitante`);return;}
+
+        _importData.push({fecha,serie,local,visita,gl,gv,cancha,arb,estado});
+      });
+
+      // Mostrar preview
+      G('imp-count').textContent=_importData.length;
+      G('imp-tbody').innerHTML=_importData.map(p=>`<tr style="border-bottom:1px solid #f0f4f8">
+        <td style="padding:4px 7px">${p.fecha}</td>
+        <td style="padding:4px 7px">${p.serie||'—'}</td>
+        <td style="padding:4px 7px"><b>${p.local}</b></td>
+        <td style="padding:4px 7px"><b>${p.visita}</b></td>
+        <td style="padding:4px 7px;text-align:center">${p.estado==='Jugado'?p.gl+'-'+p.gv:'—'}</td>
+        <td style="padding:4px 7px"><span style="background:${p.estado==='Jugado'?'#dcfce7':p.estado==='Programado'?'#dbeafe':'#fef9c3'};padding:2px 6px;border-radius:4px;font-size:.65rem">${p.estado}</span></td>
+      </tr>`).join('');
+
+      G('imp-warn').innerHTML=warns.length?'⚠️ '+warns.join('<br>⚠️ '):'';
+      G('imp-preview').style.display='block';
+      G('imp-btn-ok').style.display=_importData.length?'':'none';
+
+    }catch(err){notif('⚠️ Error leyendo archivo: '+err.message);}
+  };
+  if(file.name.endsWith('.csv')) reader.readAsArrayBuffer(file);
+  else reader.readAsArrayBuffer(file);
+}
+
+function confirmarImport(){
+  if(!_importData.length) return;
+  let nuevos=0, actualizados=0;
+  _importData.forEach(p=>{
+    // Buscar si ya existe (mismo local+visitante+fecha+serie)
+    const existe=DB.parts.find(x=>x.local===p.local&&x.visita===p.visita&&x.fecha===p.fecha&&x.serie===p.serie);
+    if(existe){
+      // Actualizar resultado si el estado es Jugado
+      existe.gl=p.gl;existe.gv=p.gv;existe.estado=p.estado;
+      if(p.cancha)existe.cancha=p.cancha;
+      if(p.arb)existe.arb=p.arb;
+      actualizados++;
+    }else{
+      DB.parts.push({id:NID(),...p});
+      nuevos++;
+    }
+  });
+  guardarDB();
+  pintFix();pintPos();pintRes();
+  G('modal-import-fix').style.display='none';
+  notif(`✅ Importados: ${nuevos} nuevos, ${actualizados} actualizados`);
+  _importData=[];
+}
+
+// Descargar plantilla Excel para completar
+function descargarPlantilla(){
+  if(typeof XLSX==='undefined'){notif('⚠️ XLSX no cargado');return;}
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.aoa_to_sheet([
+    ['Fecha','Serie','Local','Visitante','Goles Local','Goles Visitante','Cancha','Árbitro','Estado'],
+    ['2026-03-15','3° Adulto','Club A','Club B',2,1,'Cancha Norte','Juan Pérez','Jugado'],
+    ['2026-03-22','2° Adulto','Club C','Club D','','','Cancha Sur','','Programado'],
+  ]);
+  XLSX.utils.book_append_sheet(wb,ws,'Fixture');
+  XLSX.writeFile(wb,'Plantilla_Fixture_AHRenca.xlsx');
+  notif('📥 Plantilla descargada');
+}
+
+// Botón para borrar todos los datos
+function resetDB(){
+  if(confirm('¿Borrar TODOS los datos guardados? Esta acción no se puede deshacer.')){
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  }
+}
+
+// Exportar DB completa como JSON (incluye claves)
+function exportarDB(){
+  const data = JSON.stringify({DB, UID, version:'2026'}, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'AHRenca_DB_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  notif('✅ Base de datos exportada — comparte este archivo para sincronizar');
+}
+
+// Importar DB desde JSON
+function importarDB(){
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = '.json';
+  inp.onchange = function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev){
+      try{
+        const saved = JSON.parse(ev.target.result);
+        if(!saved.DB){alert('Archivo inválido — no es una DB de AHRenca.');return;}
+        if(confirm('¿Importar esta base de datos?\nEsto REEMPLAZARÁ todos los datos actuales.\n\nFecha del archivo: '+file.lastModifiedDate.toLocaleDateString('es-CL'))){
+          Object.assign(DB, saved.DB);
+          if(saved.UID) UID = saved.UID;
+          guardarDB();
+          pintClubes();pintRes();pintAdmin();pintMovs();pintSancs();
+          pintCircs();pintTrams();pintFix();pintArbs();pintJugs();pintActas();
+          notif('✅ Base de datos importada correctamente — ' + (DB.movs.length+DB.parts.length+DB.sancs.length) + ' registros');
+        }
+      }catch(err){alert('Error leyendo archivo: '+err.message);}
+    };
+    reader.readAsText(file);
+  };
+  inp.click();
+}
+
+// ── PERÍODO GLOBAL ───────────────────────────────────────────────────────
+const IDS_DESDE = ['r-d','t-d','d-d','p-d','s-d','f-d','po-d','a-d','ac-d'];
+const IDS_HASTA = ['r-h','t-h','d-h','p-h','s-h','f-h','po-h','a-h','ac-h'];
+
+function qperG(v){
+  qper(v,'g-d','g-h');
+  setPeriodoGlobal();
+}
+
+function setPeriodoGlobal(){
+  const d=V('g-d'), h2=V('g-h');
+  // Sincronizar todos los filtros de fecha
+  IDS_DESDE.forEach(id=>{if(G(id))G(id).value=d;});
+  IDS_HASTA.forEach(id=>{if(G(id))G(id).value=h2;});
+  // Actualizar todos los módulos
+  actualizarTodo();
+  // Mostrar info en barra
+  const info = d&&h2 ? `Mostrando: ${fd(d)} → ${fd(h2)}` : d ? `Desde ${fd(d)}` : 'Todo el período';
+  G('pbar-info').textContent = info;
+}
+
+function actualizarTodo(){
+  pintRes();pintMovs();pintSancs();pintCircs();pintTrams();
+  pintFix();pintPos();pintClubes();pintArbs();pintJugs();pintActas();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+G('hoy').textContent=new Date().toLocaleDateString('es-CL',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+function initSistema(){
+  // Período global: año actual por defecto
+  const H=hoy(),I=ini();
+  if(G('g-d'))G('g-d').value=I;
+  if(G('g-h'))G('g-h').value=H;
+  IDS_DESDE.forEach(id=>{if(G(id))G(id).value=I;});
+  IDS_HASTA.forEach(id=>{if(G(id))G(id).value=H;});
+  pintClubes();pintRes();pintAdmin();
+  G('pbar-info').textContent='Mostrando: '+fd(I)+' → '+fd(H);
+  const total=DB.jugs.length+DB.movs.length+DB.sancs.length+DB.parts.length+DB.arbs.length+DB.trams.length+DB.circs.length+DB.reuns.length+DB.actas.length;
+  if(total>0) setTimeout(()=>notif('☁️ Datos cargados — '+total+' registros'),500);
+  // Escuchar cambios en tiempo real
+  escucharFirebase();
+}
+
+// Cargar primero desde localStorage (rápido) luego Firebase (actualizado)
+cargarDB();
+cargarFirebase(()=>{ initSistema(); });
+</script>
+
+<!-- MODAL IMPORTAR FIXTURE -->
+<div id="modal-import-fix" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:14px;padding:28px;width:95%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.4)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+      <div style="font-size:1rem;font-weight:800;color:#1a3a6b">📥 Importar Fixture y Resultados</div>
+      <button onclick="G('modal-import-fix').style.display='none'" style="background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:.85rem">✕</button>
+    </div>
+    <div style="background:#f0f4f8;border-radius:8px;padding:14px;margin-bottom:16px;font-size:.78rem;color:#4a5568">
+      <b>📋 Formato del Excel:</b><br>
+      El archivo debe tener estas columnas en orden:<br>
+      <code style="background:#e2e8f0;padding:2px 6px;border-radius:4px;font-size:.72rem">Fecha | Serie | Local | Visitante | Goles Local | Goles Visitante | Cancha | Árbitro | Estado</code><br><br>
+      • <b>Fecha:</b> YYYY-MM-DD o DD-MM-YYYY o DD/MM/YYYY<br>
+      • <b>Serie:</b> 3° Adulto, 2° Adulto, 1° Adulto, Seniors, etc.<br>
+      • <b>Estado:</b> Programado, Jugado, Suspendido, Postergado<br>
+      • La primera fila puede ser encabezado (se detecta automáticamente)<br>
+      • Goles vacíos = 0
+    </div>
+    <div style="margin-bottom:16px">
+      <label style="font-size:.7rem;color:#718096;text-transform:uppercase;letter-spacing:1px;font-weight:700;display:block;margin-bottom:6px">Seleccionar archivo Excel (.xlsx, .xls, .csv)</label>
+      <input type="file" id="imp-file" accept=".xlsx,.xls,.csv" onchange="previsualizarImport(this)"
+        style="width:100%;background:#f7fafc;border:2px dashed #cbd5e0;padding:12px;border-radius:8px;font-size:.82rem;cursor:pointer">
+    </div>
+    <div id="imp-preview" style="display:none">
+      <div style="font-size:.78rem;font-weight:700;color:#1a3a6b;margin-bottom:8px">Vista previa — <span id="imp-count">0</span> partidos</div>
+      <div style="max-height:200px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:8px">
+        <table style="width:100%;border-collapse:collapse;font-size:.7rem">
+          <thead><tr style="background:#1a3a6b;color:#fff">
+            <th style="padding:5px 7px">Fecha</th><th style="padding:5px 7px">Serie</th>
+            <th style="padding:5px 7px">Local</th><th style="padding:5px 7px">Visit.</th>
+            <th style="padding:5px 7px">Res.</th><th style="padding:5px 7px">Estado</th>
+          </tr></thead>
+          <tbody id="imp-tbody"></tbody>
+        </table>
+      </div>
+      <div id="imp-warn" style="margin-top:8px;font-size:.72rem;color:#d97706"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:18px;justify-content:flex-end">
+      <button onclick="descargarPlantilla()" style="background:#f7fafc;border:1px solid #e2e8f0;padding:9px 18px;border-radius:7px;cursor:pointer;font-size:.82rem">📋 Descargar Plantilla</button>
+      <button onclick="G('modal-import-fix').style.display='none'" style="background:#f7fafc;border:1px solid #e2e8f0;padding:9px 18px;border-radius:7px;cursor:pointer;font-size:.82rem">Cancelar</button>
+      <button id="imp-btn-ok" onclick="confirmarImport()" style="display:none;background:#1a3a6b;color:#fff;border:none;padding:9px 20px;border-radius:7px;cursor:pointer;font-size:.82rem;font-weight:700">✅ Importar todos</button>
+    </div>
+  </div>
+</div>
+
+<!-- PLANTILLA DESCARGABLE -->
+
+<!-- BANNER FIREBASE CARGANDO -->
+<div id="fb-banner" style="display:none;position:fixed;inset:0;background:rgba(10,22,40,.92);z-index:99999;align-items:center;justify-content:center;flex-direction:column;gap:16px">
+  <div style="font-size:2.5rem">☁️</div>
+  <div style="color:#fff;font-size:1rem;font-weight:700">Conectando con la nube...</div>
+  <div style="color:rgba(255,255,255,.6);font-size:.8rem">Cargando datos actualizados</div>
+  <div style="width:48px;height:48px;border:4px solid rgba(255,255,255,.2);border-top-color:#c9a227;border-radius:50%;animation:spin 1s linear infinite"></div>
+  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+</div>
+
+<!-- PANTALLA DE LOGIN -->
+<div id="login-screen" style="position:fixed;inset:0;background:linear-gradient(135deg,#0a1628,#1a3a6b);z-index:9999;display:flex;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:14px;padding:36px 32px;width:95%;max-width:380px;box-shadow:0 30px 80px rgba(0,0,0,.5);text-align:center">
+    <div style="font-size:3rem;margin-bottom:8px">⚽</div>
+    <h2 style="color:#0a1628;font-size:1.15rem;margin-bottom:4px">ASOCIACIÓN HISTÓRICA DE RENCA</h2>
+    <p style="color:#a0aec0;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:24px">Sistema Control Directivo 2026</p>
+    <div style="margin-bottom:14px;text-align:left">
+      <label style="font-size:.65rem;color:#718096;text-transform:uppercase;letter-spacing:1px;font-weight:700;display:block;margin-bottom:4px">Usuario</label>
+      <select id="login-user" style="width:100%;background:#f7fafc;border:1px solid #e2e8f0;padding:10px 12px;border-radius:7px;font-size:.88rem;font-family:system-ui;color:#1a202c">
+        <option value="">— Seleccionar —</option>
+        <option value="admin">Administrador</option>
+        <option value="presidente">Presidente</option>
+        <option value="tesorero">Tesorero/a</option>
+        <option value="secretario">Secretario/a</option>
+        <option value="disciplina">Comité Disciplina</option>
+        <option value="arbitros">Árbitros</option>
+        <option value="fixture">Fixture</option>
+      </select>
+    </div>
+    <div style="margin-bottom:20px;text-align:left">
+      <label style="font-size:.65rem;color:#718096;text-transform:uppercase;letter-spacing:1px;font-weight:700;display:block;margin-bottom:4px">Contraseña</label>
+      <input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" style="width:100%;background:#f7fafc;border:1px solid #e2e8f0;padding:10px 12px;border-radius:7px;font-size:.88rem;font-family:system-ui;color:#1a202c">
+    </div>
+    <p id="login-err" style="color:#dc2626;font-size:.78rem;margin-bottom:10px;min-height:20px"></p>
+    <button onclick="doLogin()" style="width:100%;background:#1a3a6b;color:#fff;border:none;padding:12px;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:system-ui">🔐 Ingresar</button>
+    <div style="margin-top:14px;border-top:1px solid #e2e8f0;padding-top:14px">
+      <button onclick="modoImpresion()" style="width:100%;background:#f7fafc;color:#4a5568;border:1px solid #e2e8f0;padding:10px;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;font-family:system-ui">🖨️ Solo Impresión / Exportar</button>
+      <p style="color:#a0aec0;font-size:.65rem;margin-top:6px;text-align:center">Sin clave — solo puede imprimir y exportar Excel/PDF</p>
+    </div>
+    <p style="color:#a0aec0;font-size:.65rem;margin-top:10px">AHRenca © 2026</p>
+  </div>
+</div>
+
+</body>
+</html>
